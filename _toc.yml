@@ -1,0 +1,7 @@
+# Table of contents
+
+format: jb-book
+root: intro.md
+chapters:
+- file: notebooks/python-dictionary.ipynb
+- file: genindex.md 
