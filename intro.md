@@ -1,7 +1,7 @@
 # Pyomo Tutorial
 
 Welcome to the *Pyomo Tutorial*, a project currently under development with completion expected by Winter, 2023. These notebooks 
-derives from the Pyomo summer workshop 2018 and we update them with the latest version of Python and Pyomo.
+derives from the [Pyomo summer workshop 2018](http://www.pyomo.org/workshop-examples) and we update them with the latest version of Python and Pyomo.
 
 ## Getting started
 
