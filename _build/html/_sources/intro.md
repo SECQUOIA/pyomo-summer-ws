@@ -1,7 +1,7 @@
 # Pyomo Tutorial
 
 Welcome to the *Pyomo Tutorial*, a project currently under development with completion expected by Winter, 2023. These notebooks 
-derives from the Pyomo summer workshop 2018 and supports the latest version of Pyomo. 
+derives from the Pyomo summer workshop 2018 and we update them with the latest version of Python and Pyomo.
 
 ## Getting started
 
@@ -17,7 +17,7 @@ We seek your feedback! If you encounter an issue or have suggestions on how to m
 
 ## About Us
 
-We are a group of researchers and educators who came together with a common purpose of developing materials for use in our classroom teaching. Hopefully, these materials will find use in other classrooms and, most importantly, by those seeking entry into the world of process system engineering.
+We are a group of researchers and educators who came together with a common purpose of developing materials for use in our classroom teaching. Hopefully, these materials will find use in other classrooms and, most importantly, by those seeking entry into the world of mathematical programming.
 
 * David Bernal, Purdue University
 * Zedong Peng, Purdue University
