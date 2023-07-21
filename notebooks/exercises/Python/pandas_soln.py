@@ -8,14 +8,14 @@
 # collect data. Please import the file and display it to the console to verify
 # that it matches your expectations.
 
-import pandas
+import pandas as pd
 
 # df = pandas.read_csv(--CODE TO IMPORT HERE--)
 # print(df)
 
 # Answer:
 
-df = pandas.read_csv('bears-are-bears.csv', index_col=0)
+df = pd.read_csv('bears-are-bears.csv', index_col=0)
 print(df)
 
 # Your colleague wants to have an alphabetically sorted unique list of all the
