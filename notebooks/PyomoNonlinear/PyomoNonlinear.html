@@ -1,0 +1,1619 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Pyomo Summer Workshop 2018 Exercise Problem - Pyomo Nonlinear Problems &#8212; Pyomo Tutorial</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-DVQ7NZ8CYZ"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-DVQ7NZ8CYZ');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/PyomoNonlinear/PyomoNonlinear';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Index" href="../../genindex.html" />
+    <link rel="prev" title="Pyomo Summer Workshop 2018 Exercise Problem - Pyomo Fundamentals" href="../PyomoFundamentals/Fundamentals.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/Pyomo-logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/Pyomo-logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Pyomo Tutorial
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../python/python-list.html">Exercise Problem - List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/python-dictionary.html">Exercise Problem - Dictionary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/python-forloop.html">Exercise Problem - For Loops</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/python-function.html">Exercise Problem - Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/python-pandas.html">Exercise Problem - pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/python-exercises.html">Pyomo Summer Workshop 2018 Exercise Problem - Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PyomoFundamentals/Fundamentals.html">Pyomo Summer Workshop 2018 Exercise Problem - Pyomo Fundamentals</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Pyomo Summer Workshop 2018 Exercise Problem - Pyomo Nonlinear Problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Index</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/AlbertLee125/pyomo-summer-ws/blob/main/notebooks/PyomoNonlinear/PyomoNonlinear.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/AlbertLee125/pyomo-summer-ws" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/AlbertLee125/pyomo-summer-ws/issues/new?title=Issue%20on%20page%20%2Fnotebooks/PyomoNonlinear/PyomoNonlinear.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/PyomoNonlinear/PyomoNonlinear.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Pyomo Summer Workshop 2018 Exercise Problem - Pyomo Nonlinear Problems</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-rosenbrock-function">Example: Rosenbrock function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-nonlinear-problems">Exercise 1: Nonlinear Problems</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative-initialization">1.1. Alternative Initialization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-errors">1.2. Evaluation errors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative-formulations">1.3. Alternative Formulations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reactor-design-problem-hart-et-al-2017-bequette-2003">1.4. Reactor design problem (Hart et al., 2017; Bequette, 2003)</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="pyomo-summer-workshop-2018-exercise-problem-pyomo-nonlinear-problems">
+<h1>Pyomo Summer Workshop 2018 Exercise Problem - Pyomo Nonlinear Problems<a class="headerlink" href="#pyomo-summer-workshop-2018-exercise-problem-pyomo-nonlinear-problems" title="Permalink to this heading">#</a></h1>
+<p>This notebook contains material from the Pyomo Summer Workshop 2018 by the Pyomo Developement Team and the notebook is developed by David Bernal (dbernaln at <a class="reference external" href="http://purdue.edu">purdue.edu</a>), Zedong Peng (peng_zedong at <a class="reference external" href="http://123.com">123.com</a>), and Albert Lee (lee4382 at <a class="reference external" href="http://purdue.edu">purdue.edu</a>);  the content is available on <strong><a class="reference external" href="https://github.com/AlbertLee125/pyomo-summer-ws">Github</a></strong>.
+The original sources of this material are available on <strong><a class="reference external" href="http://www.pyomo.org/workshop-examples">Pyomo</a></strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="example-rosenbrock-function">
+<h2>Example: Rosenbrock function<a class="headerlink" href="#example-rosenbrock-function" title="Permalink to this heading">#</a></h2>
+<p>The Rosenbrock function is defined as below:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x,y) = (1-x)^2 + 100(y-x^2)^2
+\]</div>
+<p>Minimize the Rosenbrock function using Pyomo and IPOPT.
+Initialize <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> to 1.5 and 1.5, respectively.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">rosenbrock</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> \
+        <span class="o">+</span> <span class="mf">100.0</span><span class="o">*</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">rosenbrock</span><span class="p">,</span> <span class="n">sense</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">minimize</span><span class="p">)</span>
+
+<span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;ipopt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">pprint</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2 Var Declarations
+    x : Size=1, Index=None
+        Key  : Lower : Value              : Upper : Fixed : Stale : Domain
+        None :  None : 1.0000000000008233 :  None : False : False :  Reals
+    y : Size=1, Index=None
+        Key  : Lower : Value              : Upper : Fixed : Stale : Domain
+        None :  None : 1.0000000000016314 :  None : False : False :  Reals
+
+1 Objective Declarations
+    obj : Size=1, Index=None, Active=True
+        Key  : Active : Sense    : Expression
+        None :   True : minimize : (1.0 - x)**2 + 100.0*(y - x**2)**2
+
+3 Declarations: x y obj
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1-nonlinear-problems">
+<h2>Exercise 1: Nonlinear Problems<a class="headerlink" href="#exercise-1-nonlinear-problems" title="Permalink to this heading">#</a></h2>
+<section id="alternative-initialization">
+<h3>1.1. Alternative Initialization<a class="headerlink" href="#alternative-initialization" title="Permalink to this heading">#</a></h3>
+<p>Effective initialization can be critical for solving nonlinear problems, since they can have several local solutions and numerical difficulties.
+Solve the Rosenbrock example using different initial values for the <span class="math notranslate nohighlight">\(x\)</span> variables.
+Write a loop that varies the initial value from <span class="math notranslate nohighlight">\(2.0\)</span> to <span class="math notranslate nohighlight">\(6.0\)</span>, solves the problem, and prints the solution for each iteration of the loop.
+(A soution for this problem can be found in <code class="docutils literal notranslate"><span class="pre">rosenbrock.init.sol.py</span></code>.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">rosenbrock</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">100.0</span><span class="o">*</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">rosenbrock</span><span class="p">,</span> <span class="n">sense</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">minimize</span><span class="p">)</span>
+
+
+<span class="n">solver</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;ipopt&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;x_init, y_init, x_soln, y_soln&#39;</span><span class="p">)</span>
+<span class="n">y_init</span> <span class="o">=</span> <span class="mf">5.0</span>
+<span class="k">for</span> <span class="n">x_init</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x_init</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">5.0</span>
+
+    <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0:6.2f}</span><span class="s2">  </span><span class="si">{1:6.2f}</span><span class="s2">  </span><span class="si">{2:6.2f}</span><span class="s2">  </span><span class="si">{3:6.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x_init</span><span class="p">,</span> \
+            <span class="n">y_init</span><span class="p">,</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x_init, y_init, x_soln, y_soln
+  2.00    5.00    1.00    1.00
+  3.00    5.00    1.00    1.00
+  4.00    5.00    1.00    1.00
+  5.00    5.00    1.00    1.00
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="evaluation-errors">
+<h3>1.2. Evaluation errors<a class="headerlink" href="#evaluation-errors" title="Permalink to this heading">#</a></h3>
+<p>Consider the following problem with initial values <span class="math notranslate nohighlight">\(x=5\)</span>, <span class="math notranslate nohighlight">\(y=5\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\min_{x,y} &amp;~ f(x,y) = (x - 1.01)^2 + y^2 \\
+\text{s.t.} &amp;~~ y = \sqrt{x - 1.0}
+\end{aligned}
+\end{split}\]</div>
+<ol class="arabic simple">
+<li><p>Starting with <code class="docutils literal notranslate"><span class="pre">evalueation_error_incomplete.py</span></code>, formulate this Pyomo model and solve using IPOPT.
+You should get list of errors from the solver.
+Add the IPOPT solver options <code class="docutils literal notranslate"><span class="pre">solver.options[</span></code>halt_on_ampl_error<code class="docutils literal notranslate"><span class="pre">]=</span></code>yes`` to find the problem.
+(Hint: error output might be ordered strangely, look up in the console output.)
+What did you discover?
+How might you fix this?
+(Solution for this can be found in <code class="docutils literal notranslate"><span class="pre">evaluation_error_bounds_soln.py</span></code>)</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># evaluation_error_incomplete.py</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">obj_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="mf">1.01</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">obj_rule</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">con_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">con</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">con_rule</span><span class="p">)</span>
+
+<span class="n">solver</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;ipopt&#39;</span><span class="p">)</span>
+<span class="c1"># TODO: ADD SOLVER OPTIONS HERE</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">obj_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="mf">1.01</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">obj_rule</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">con_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">pyo</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">con</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">con_rule</span><span class="p">)</span>
+
+<span class="n">solver</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;ipopt&#39;</span><span class="p">)</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;halt_on_ampl_error&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;yes&#39;</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ipopt 3.14.12: halt_on_ampl_error=yes
+Error evaluating constraint 1: can&#39;t evaluate sqrt(-0.752432).
+
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+This is Ipopt version 3.14.12, running with linear solver MUMPS 5.2.1.
+
+Number of nonzeros in equality constraint Jacobian...:        2
+Number of nonzeros in inequality constraint Jacobian.:        0
+Number of nonzeros in Lagrangian Hessian.............:        2
+
+Total number of variables............................:        2
+                     variables with only lower bounds:        0
+                variables with lower and upper bounds:        0
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:        1
+Total number of inequality constraints...............:        0
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:        0
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0  4.0920100e+01 3.00e+00 9.86e+00  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
+ERROR: Solver (ipopt) returned non-zero return code (1)
+ERROR: See the solver log above for diagnostic information.
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ApplicationError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">10</span><span class="p">],</span> <span class="n">line</span> <span class="mi">16</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="n">solver</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;ipopt&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="n">solver</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;halt_on_ampl_error&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;yes&#39;</span>
+<span class="ne">---&gt; </span><span class="mi">16</span> <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="nb">print</span><span class="p">(</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="nb">print</span><span class="p">(</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="p">)</span>
+
+<span class="nn">File ~/Github/pyomo/pyomo/opt/base/solvers.py:627,</span> in <span class="ni">OptSolver.solve</span><span class="nt">(self, *args, **kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">625</span>     <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">_status</span><span class="p">,</span> <span class="s1">&#39;log&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">_status</span><span class="o">.</span><span class="n">log</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">626</span>         <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Solver log:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">_status</span><span class="o">.</span><span class="n">log</span><span class="p">))</span>
+<span class="ne">--&gt; </span><span class="mi">627</span>     <span class="k">raise</span> <span class="n">ApplicationError</span><span class="p">(</span><span class="s2">&quot;Solver (</span><span class="si">%s</span><span class="s2">) did not exit normally&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">628</span> <span class="n">solve_completion_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">629</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_report_timing</span><span class="p">:</span>
+
+<span class="ne">ApplicationError</span>: Solver (ipopt) did not exit normally
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Add bounds <span class="math notranslate nohighlight">\(x \geq 1\)</span> to fix this problem.
+Resolve the problem.
+Comment on the number of iterations and the quality of the solution.
+(Note: The problem still occurs because <span class="math notranslate nohighlight">\(x \geq 1\)</span> is not enforced exactly, and small numerical values still cause the error.)
+(A soution for this can be found in <code class="docutils literal notranslate"><span class="pre">evaluation_error_bounds_soln.py</span></code>.)</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="kc">None</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">obj_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="mf">1.01</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">obj_rule</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">con_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">pyo</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">con</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">con_rule</span><span class="p">)</span>
+
+<span class="n">solver</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;ipopt&#39;</span><span class="p">)</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;halt_on_ampl_error&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;yes&#39;</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ipopt 3.14.12: halt_on_ampl_error=yes
+
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+This is Ipopt version 3.14.12, running with linear solver MUMPS 5.2.1.
+
+Number of nonzeros in equality constraint Jacobian...:        2
+Number of nonzeros in inequality constraint Jacobian.:        0
+Number of nonzeros in Lagrangian Hessian.............:        2
+
+Total number of variables............................:        2
+                     variables with only lower bounds:        1
+                variables with lower and upper bounds:        0
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:        1
+Total number of inequality constraints...............:        0
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:        0
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0  4.0920100e+01 3.00e+00 8.92e+00  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
+   1  1.3964766e+00 9.81e-01 4.57e+00  -1.0 4.20e+00    -  1.00e+00 9.43e-01f  1
+   2  1.3265288e+00 4.58e-01 9.56e+00  -1.0 3.54e-01   2.0 1.31e-01 1.00e+00f  1
+   3  3.2528786e-01 1.23e-02 1.25e+00  -1.0 5.70e-01    -  1.00e+00 1.00e+00f  1
+   4  4.9701812e-03 7.82e-02 1.36e-01  -1.0 3.78e-01    -  1.00e+00 1.00e+00F  1
+   5  6.0628408e-03 4.53e-02 1.66e+00  -2.5 2.08e-02    -  1.00e+00 1.00e+00h  1
+   6  6.7063949e-03 4.53e-02 2.24e+00  -2.5 1.05e+00    -  1.53e-02 3.91e-03h  9
+   7  7.6973110e-03 1.67e-02 5.10e-01  -2.5 6.16e-03   1.5 1.00e+00 1.00e+00h  1
+   8  3.5855462e-03 1.09e-03 2.51e-01  -2.5 2.81e-02    -  1.00e+00 1.00e+00h  1
+   9  3.0456986e-03 1.24e-04 1.10e-03  -2.5 4.78e-03    -  1.00e+00 1.00e+00h  1
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+  10  9.2960387e-04 1.58e-02 1.21e+00  -3.8 2.59e-02    -  1.00e+00 1.00e+00h  1
+  11  2.2722219e-04 1.18e-04 1.42e-01  -3.8 1.75e-02    -  1.00e+00 1.00e+00h  1
+  12  2.4804811e-04 4.21e-05 4.38e-03  -3.8 8.99e-04    -  1.00e+00 1.00e+00h  1
+  13  2.5041988e-04 8.02e-07 1.04e-04  -3.8 9.89e-05    -  1.00e+00 1.00e+00h  1
+  14  1.3928326e-04 4.89e-03 3.54e+00  -5.7 6.12e-03    -  1.00e+00 1.00e+00h  1
+  15  1.6721345e-04 3.66e-03 4.16e+00  -5.7 1.95e-03   1.0 1.01e-01 1.00e+00h  1
+  16  1.7756299e-04 1.12e-03 2.28e+00  -5.7 6.51e-04   1.5 1.00e+00 1.00e+00h  1
+  17  1.5169810e-04 1.68e-05 1.58e-01  -5.7 1.61e-03   1.0 1.00e+00 1.00e+00h  1
+Error evaluating constraint 1: can&#39;t evaluate sqrt(-9.90312e-09).
+ERROR: Solver (ipopt) returned non-zero return code (1)
+ERROR: See the solver log above for diagnostic information.
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ApplicationError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="n">line</span> <span class="mi">16</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="n">solver</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;ipopt&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="n">solver</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;halt_on_ampl_error&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;yes&#39;</span>
+<span class="ne">---&gt; </span><span class="mi">16</span> <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="nb">print</span><span class="p">(</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="nb">print</span><span class="p">(</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="p">)</span>
+
+<span class="nn">File ~/Github/pyomo/pyomo/opt/base/solvers.py:627,</span> in <span class="ni">OptSolver.solve</span><span class="nt">(self, *args, **kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">625</span>     <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">_status</span><span class="p">,</span> <span class="s1">&#39;log&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">_status</span><span class="o">.</span><span class="n">log</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">626</span>         <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Solver log:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">_status</span><span class="o">.</span><span class="n">log</span><span class="p">))</span>
+<span class="ne">--&gt; </span><span class="mi">627</span>     <span class="k">raise</span> <span class="n">ApplicationError</span><span class="p">(</span><span class="s2">&quot;Solver (</span><span class="si">%s</span><span class="s2">) did not exit normally&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">628</span> <span class="n">solve_completion_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">629</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_report_timing</span><span class="p">:</span>
+
+<span class="ne">ApplicationError</span>: Solver (ipopt) did not exit normally
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Think about other solutions for this problem.
+(e.g., <span class="math notranslate nohighlight">\( x \geq 1.001\)</span>).
+(A solution for this can be found in <code class="docutils literal notranslate"><span class="pre">evaluation_error_bounds2_soln.py</span></code>.)</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">1.001</span><span class="p">,</span><span class="kc">None</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">obj_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="mf">1.01</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">obj_rule</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">con_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">pyo</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">con</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">con_rule</span><span class="p">)</span>
+
+<span class="n">solver</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;ipopt&#39;</span><span class="p">)</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;halt_on_ampl_error&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;yes&#39;</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ipopt 3.14.12: halt_on_ampl_error=yes
+
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+This is Ipopt version 3.14.12, running with linear solver MUMPS 5.2.1.
+
+Number of nonzeros in equality constraint Jacobian...:        2
+Number of nonzeros in inequality constraint Jacobian.:        0
+Number of nonzeros in Lagrangian Hessian.............:        2
+
+Total number of variables............................:        2
+                     variables with only lower bounds:        1
+                variables with lower and upper bounds:        0
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:        1
+Total number of inequality constraints...............:        0
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:        0
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0  4.0920100e+01 3.00e+00 8.92e+00  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
+   1  1.3985928e+00 9.80e-01 4.51e+00  -1.0 4.20e+00    -  1.00e+00 9.43e-01f  1
+   2  1.3200328e+00 4.52e-01 1.00e+01  -1.0 3.56e-01   2.0 1.31e-01 1.00e+00f  1
+   3  3.3527706e-01 1.13e-02 1.27e+00  -1.0 5.60e-01    -  1.00e+00 1.00e+00f  1
+   4  4.9066403e-03 4.74e-02 2.52e-02  -1.0 3.83e-01    -  1.00e+00 1.00e+00F  1
+   5  4.4928608e-03 2.36e-02 7.26e-01  -2.5 1.19e-02    -  1.00e+00 1.00e+00h  1
+   6  5.9528153e-03 7.95e-03 5.53e-01  -2.5 1.04e-02    -  1.00e+00 1.00e+00h  1
+   7  3.2290130e-03 1.43e-03 4.99e-03  -2.5 2.06e-02    -  1.00e+00 1.00e+00h  1
+   8  1.5403307e-03 3.85e-03 1.04e-01  -3.8 1.82e-02    -  1.00e+00 1.00e+00h  1
+   9  1.2315611e-03 2.80e-06 1.34e-03  -3.8 4.28e-03    -  1.00e+00 1.00e+00h  1
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+  10  1.0880355e-03 7.80e-05 2.46e-03  -5.7 2.23e-03    -  1.00e+00 1.00e+00h  1
+  11  1.0828351e-03 2.74e-10 3.15e-07  -5.7 8.21e-05    -  1.00e+00 1.00e+00h  1
+  12  1.0809936e-03 1.39e-08 4.39e-07  -8.6 2.96e-05    -  1.00e+00 1.00e+00h  1
+  13  1.0809927e-03 1.34e-15 6.88e-14  -8.6 1.40e-08    -  1.00e+00 1.00e+00h  1
+
+Number of Iterations....: 13
+
+                                   (scaled)                 (unscaled)
+Objective...............:   1.0809926760836025e-03    1.0809926760836025e-03
+Dual infeasibility......:   6.8833827526759706e-14    6.8833827526759706e-14
+Constraint violation....:   1.3392065234540951e-15    1.3392065234540951e-15
+Variable bound violation:   7.4581631981374130e-09    7.4581631981374130e-09
+Complementarity.........:   2.5059036424968433e-09    2.5059036424968433e-09
+Overall NLP error.......:   2.5059036424968433e-09    2.5059036424968433e-09
+
+
+Number of objective function evaluations             = 15
+Number of objective gradient evaluations             = 14
+Number of equality constraint evaluations            = 15
+Number of inequality constraint evaluations          = 0
+Number of equality constraint Jacobian evaluations   = 14
+Number of inequality constraint Jacobian evaluations = 0
+Number of Lagrangian Hessian evaluations             = 13
+Total seconds in IPOPT                               = 0.010
+
+EXIT: Optimal Solution Found.
+1.0009999925418367
+0.0316226586775465
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="alternative-formulations">
+<h3>1.3. Alternative Formulations<a class="headerlink" href="#alternative-formulations" title="Permalink to this heading">#</a></h3>
+<p>Consider the following problem with initial values <span class="math notranslate nohighlight">\(x=5\)</span> and <span class="math notranslate nohighlight">\(y=5\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\min_{x,y} &amp;~ f(x,y) = (x - 1.01)^2 + y^2 \\
+\text{s.t.} &amp;~~ \frac{x-1}{y} = 1
+\end{aligned}
+\end{split}\]</div>
+<p>Note that the solution to this problem is <span class="math notranslate nohighlight">\(x=1.005\)</span> and <span class="math notranslate nohighlight">\(y=0.005\)</span>.
+There are several ways that the problem above can be reformulated.
+Some examples are shown below.
+Which ones do you expect to be better?
+Why?
+Starting with <code class="docutils literal notranslate"><span class="pre">formulation_incomplete.py</span></code> finish the Pyomo model for each of the iterations and quality of solutions.
+What can you learn about problem formulation from this examples?</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># formulation_incomplete.py</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">obj_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="mf">1.01</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">obj_rule</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">con_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="c1"># TODO: SPECIFY CONSTRAINT HERE</span>
+<span class="n">model</span><span class="o">.</span><span class="n">con</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">con_rule</span><span class="p">)</span>
+
+<span class="n">solver</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;ipopt&#39;</span><span class="p">)</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li><p>(A solution can be found in <code class="docutils literal notranslate"><span class="pre">formulation_1_soln.py</span></code>.)
+$<span class="math notranslate nohighlight">\(
+\begin{aligned}
+\min_{x,y} &amp;~ f(x,y) = (x - 1.01)^2 + y^2 \\
+\text{s.t.} &amp;~~ \frac{x-1}{y} = 1
+\end{aligned}
+\)</span>$</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">obj_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="mf">1.01</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">obj_rule</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">con_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="mf">1.0</span>
+<span class="n">model</span><span class="o">.</span><span class="n">con</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">con_rule</span><span class="p">)</span>
+
+<span class="n">solver</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;ipopt&#39;</span><span class="p">)</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ipopt 3.14.12: 
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+This is Ipopt version 3.14.12, running with linear solver MUMPS 5.2.1.
+
+Number of nonzeros in equality constraint Jacobian...:        2
+Number of nonzeros in inequality constraint Jacobian.:        0
+Number of nonzeros in Lagrangian Hessian.............:        3
+
+Total number of variables............................:        2
+                     variables with only lower bounds:        0
+                variables with lower and upper bounds:        0
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:        1
+Total number of inequality constraints...............:        0
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:        0
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0  4.0920100e+01 2.00e-01 9.99e+00  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
+   1  5.9762286e-01 2.27e+00 1.52e+01  -1.0 5.48e+00    -  1.00e+00 1.00e+00f  1
+   2  1.9787064e-01 2.97e+00 2.40e+01  -1.0 8.02e+00    -  1.00e+00 1.25e-01f  4
+   3  6.5241867e+01 2.82e+00 2.98e+01  -1.0 6.68e+00    -  1.00e+00 1.00e+00h  1
+   4  9.5583161e+01 1.54e+00 2.31e+01  -1.0 4.70e+00    -  1.00e+00 1.00e+00h  1
+   5  1.8959813e+02 4.39e-01 2.77e+01  -1.0 1.14e+01    -  1.00e+00 1.00e+00h  1
+   6  2.2666991e+01 2.02e+00 1.24e+01  -1.0 1.54e+01    -  1.00e+00 1.00e+00f  1
+   7  3.7976779e+01 9.23e-01 1.21e+01  -1.0 3.88e+00    -  1.00e+00 1.00e+00h  1
+   8  2.0620942e+01 6.84e-02 1.64e+01  -1.0 5.65e+00    -  1.00e+00 5.00e-01f  2
+   9  9.8180623e-02 8.02e-01 1.24e+02  -1.0 3.63e+00    -  1.00e+00 1.00e+00f  1
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+  10  2.3622224e+03 7.97e-01 1.42e+02  -1.0 4.73e+01    -  1.00e+00 1.00e+00h  1
+  11  3.6759509e+03 1.64e-01 2.37e+02  -1.0 3.63e+01    -  1.00e+00 1.00e+00h  1
+  12  7.0378669e+01 6.52e-01 5.20e+02  -1.0 4.32e+01    -  1.00e+00 1.00e+00f  1
+  13  2.5142436e+04 6.17e-01 5.94e+02  -1.0 1.40e+02    -  1.00e+00 1.00e+00h  1
+  14  2.6505724e+04 3.06e-01 1.02e+03  -1.7 7.26e+01    -  1.00e+00 1.00e+00h  1
+  15  3.7335004e+03 2.99e-01 5.43e+02  -1.7 9.42e+01    -  1.00e+00 1.00e+00f  1
+  16  3.5127061e+03 7.10e-02 3.16e+02  -1.7 9.60e+00    -  1.00e+00 1.00e+00f  1
+  17  3.2134630e+01 4.96e-01 1.50e+03  -1.7 4.08e+01    -  1.00e+00 1.00e+00f  1
+  18  1.0915648e+05 4.88e-01 1.76e+03  -1.7 2.89e+02    -  1.00e+00 1.00e+00h  1
+  19  1.1667899e+05 1.53e-01 1.76e+03  -1.7 1.07e+02    -  1.00e+00 1.00e+00h  1
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+  20  3.7449172e+03 4.78e-01 3.37e+03  -1.7 2.30e+02    -  1.00e+00 1.00e+00f  1
+  21  4.9463570e+05 4.36e-01 3.65e+03  -1.7 5.58e+02    -  1.00e+00 1.00e+00h  1
+  22  3.6988313e+05 2.75e-01 5.13e+03  -1.7 2.37e+02    -  1.00e+00 1.00e+00f  1
+  23  8.9309627e+04 1.73e-01 1.92e+03  -1.7 2.88e+02    -  1.00e+00 1.00e+00f  1
+  24  4.0590995e+04 3.57e-02 4.55e+02  -1.7 1.71e+02    -  1.00e+00 5.00e-01f  2
+  25  1.8907970e+01 5.44e+00 1.24e+05  -1.7 1.46e+02    -  1.00e+00 1.00e+00f  1
+  26  1.4670968e+01 5.44e+00 1.24e+05  -1.7 1.63e+04    -  1.00e+00 4.88e-04f 12
+  27  2.3540992e+01 5.44e+00 1.24e+05  -1.7 1.63e+04    -  1.00e+00 6.10e-05h 15
+  28  2.8758563e+01 5.44e+00 1.24e+05  -1.7 1.63e+04    -  1.00e+00 3.05e-05h 16
+  29  3.1562971e+01 5.44e+00 1.24e+05  -1.7 1.63e+04    -  1.00e+00 1.53e-05h 17
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+  30  2.8032208e+08 5.44e+00 1.32e+05  -1.7 1.63e+04    -  1.00e+00 1.00e+00s 22
+  31  2.9975467e+08 2.93e+00 7.23e+04  -1.7 4.29e+03    -  1.00e+00 1.00e+00s 22
+  32  5.0495436e+08 1.67e+00 5.58e+04  -1.7 1.07e+04    -  1.00e+00 1.00e+00s 22
+  33r 5.0495436e+08 1.67e+00 9.99e+02   0.2 0.00e+00    -  0.00e+00 0.00e+00R  1
+  34r 1.7350836e+09 9.31e-01 7.02e+02   0.2 6.83e+06    -  1.00e+00 3.35e-03f  1
+  35r 9.2739578e+08 4.28e-01 8.63e+00   0.2 4.56e+04    -  1.00e+00 3.31e-01f  1
+  36  2.5595903e+08 9.68e-02 4.45e+04  -1.7 3.13e+04    -  1.00e+00 5.00e-01f  2
+  37  9.5896907e+05 9.69e-01 2.09e+05  -2.5 1.18e+04    -  1.00e+00 1.00e+00f  1
+  38  1.0215080e+10 9.60e-01 2.15e+05  -2.5 1.00e+05    -  1.00e+00 1.00e+00h  1
+  39  1.9190691e+10 5.97e-02 4.31e+05  -2.5 9.67e+04    -  1.00e+00 1.00e+00h  1
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+  40  3.6729262e+07 8.83e-01 3.34e+06  -2.5 1.00e+05    -  1.00e+00 1.00e+00f  1
+  41  2.1363532e+12 8.79e-01 3.67e+06  -2.5 1.45e+06    -  1.00e+00 1.00e+00h  1
+  42  3.7010171e+12 1.13e-01 6.64e+06  -2.5 1.26e+06    -  1.00e+00 1.00e+00h  1
+  43  2.8512383e+10 7.70e-01 2.44e+07  -2.5 1.39e+06    -  1.00e+00 1.00e+00f  1
+  44  8.3324853e+13 7.56e-01 2.81e+07  -2.5 8.70e+06    -  1.00e+00 1.00e+00h  1
+  45  1.1867571e+14 2.10e-01 4.78e+07  -2.5 6.23e+06    -  1.00e+00 1.00e+00h  1
+  46  4.3825285e+12 5.52e-01 6.94e+07  -2.5 7.54e+06    -  1.00e+00 1.00e+00f  1
+  47  2.9193897e+14 4.83e-01 7.29e+07  -2.5 1.33e+07    -  1.00e+00 1.00e+00h  1
+  48  1.9270328e+14 4.45e-01 1.55e+08  -2.5 7.28e+06    -  1.00e+00 1.00e+00f  1
+  49  1.5322309e+14 3.60e-02 4.23e+07  -2.5 2.51e+06    -  1.00e+00 1.00e+00f  1
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+  50  4.0213041e+13 1.47e-03 1.01e+07  -2.5 8.84e+06    -  1.00e+00 5.00e-01f  2
+  51  2.1909501e+07 1.78e+00 1.36e+09  -5.7 4.49e+06    -  1.00e+00 1.00e+00f  1
+  52r 2.1909501e+07 1.78e+00 9.99e+02   0.2 0.00e+00    -  0.00e+00 4.77e-07R 22
+  53r 6.2264681e+07 9.52e-01 6.60e+02   0.2 1.43e+06    -  1.00e+00 2.94e-03f  1
+  54  2.9605877e+07 4.56e-02 2.39e+04  -5.7 8.24e+03    -  1.00e+00 5.00e-01f  2
+  55  7.5041437e+04 6.23e-01 2.12e+05  -5.7 3.84e+03    -  1.00e+00 1.00e+00f  1
+  56  3.8044524e+09 6.20e-01 2.54e+05  -5.7 5.74e+04    -  1.00e+00 1.00e+00h  1
+  57  4.8409848e+09 1.71e-01 3.17e+05  -5.7 3.10e+04    -  1.00e+00 1.00e+00h  1
+  58  1.4096798e+08 5.45e-01 5.83e+05  -5.7 4.80e+04    -  1.00e+00 1.00e+00f  1
+  59  2.0273680e+10 4.99e-01 6.42e+05  -5.7 1.16e+05    -  1.00e+00 1.00e+00h  1
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+  60  1.6357818e+10 3.26e-01 1.05e+06  -5.7 5.03e+04    -  1.00e+00 1.00e+00f  1
+  61  4.5791481e+09 1.59e-01 2.86e+05  -5.7 5.85e+04    -  1.00e+00 1.00e+00f  1
+  62  1.5986897e+09 1.44e-02 6.17e+04  -5.7 4.66e+04    -  1.00e+00 5.00e-01f  2
+  63  3.9919794e+08 1.14e-04 2.86e+04  -5.7 2.87e+04    -  1.00e+00 5.00e-01f  2
+  64  1.3061165e+00 1.96e+00 6.01e+06  -5.7 1.41e+04    -  1.00e+00 1.00e+00f  1
+  65r 1.3061165e+00 1.96e+00 9.99e+02   0.3 0.00e+00    -  0.00e+00 4.77e-07R 22
+  66r 2.6019454e+00 9.77e-01 4.87e+02   0.3 1.00e+03    -  1.00e+00 1.94e-03f  1
+  67  1.2554928e+00 2.21e-02 4.85e+00  -5.7 1.65e+00    -  1.00e+00 5.00e-01f  2
+  68  9.7999887e-04 5.40e-01 7.80e+01  -5.7 7.92e-01    -  1.00e+00 1.00e+00f  1
+  69  3.6572559e+02 5.39e-01 9.38e+01  -5.7 1.73e+01    -  1.00e+00 1.00e+00h  1
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+  70  4.3470356e+02 1.43e-01 9.63e+01  -5.7 7.69e+00    -  1.00e+00 1.00e+00h  1
+  71  1.4059476e+02 2.44e-02 2.93e+01  -5.7 1.44e+01    -  1.00e+00 5.00e-01f  2
+  72  3.5786237e+01 5.20e-04 8.68e+00  -5.7 8.51e+00    -  1.00e+00 5.00e-01f  2
+  73  7.4391281e-05 3.59e-01 1.54e+02  -5.7 4.23e+00    -  1.00e+00 1.00e+00f  1
+  74  5.3687560e+02 3.59e-01 1.78e+02  -5.7 1.95e+01    -  1.00e+00 1.00e+00h  1
+  75  5.7064266e+02 7.02e-02 1.09e+02  -5.7 4.95e+00    -  1.00e+00 1.00e+00h  1
+  76  1.6408381e+02 6.79e-03 2.64e+01  -5.7 1.67e+01    -  1.00e+00 5.00e-01f  2
+  77  4.1148273e+01 3.71e-05 9.08e+00  -5.7 9.10e+00    -  1.00e+00 5.00e-01f  2
+  78  5.1696817e-05 3.31e-02 1.12e+01  -5.7 4.54e+00    -  1.00e+00 1.00e+00f  1
+  79  1.7827388e-02 3.14e-02 1.08e+01  -5.7 9.57e-02    -  1.00e+00 1.00e+00h  1
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+  80  1.4428077e-02 3.91e-03 1.69e+00  -5.7 1.11e-02    -  1.00e+00 1.00e+00h  1
+  81  3.7713449e-03 2.69e-04 1.93e-01  -5.7 8.37e-02    -  1.00e+00 5.00e-01h  2
+  82  5.0116310e-05 2.32e-03 9.17e-01  -5.7 4.31e-02    -  1.00e+00 1.00e+00h  1
+  83  5.0578118e-05 2.18e-04 8.63e-02  -5.7 5.30e-04    -  1.00e+00 1.00e+00h  1
+  84  4.9998894e-05 2.30e-05 9.01e-03  -5.7 5.28e-04    -  1.00e+00 1.00e+00h  1
+  85  5.0000001e-05 2.08e-08 8.15e-06  -5.7 4.64e-06    -  1.00e+00 1.00e+00h  1
+  86  5.0000000e-05 2.07e-13 8.34e-11  -8.6 5.17e-08    -  1.00e+00 1.00e+00h  1
+
+Number of Iterations....: 86
+
+                                   (scaled)                 (unscaled)
+Objective...............:   4.9999999999989723e-05    4.9999999999989723e-05
+Dual infeasibility......:   8.3368130107674965e-11    8.3368130107674965e-11
+Constraint violation....:   2.0738966099997924e-13    2.0738966099997924e-13
+Variable bound violation:   0.0000000000000000e+00    0.0000000000000000e+00
+Complementarity.........:   0.0000000000000000e+00    0.0000000000000000e+00
+Overall NLP error.......:   8.3368130107674965e-11    8.3368130107674965e-11
+
+
+Number of objective function evaluations             = 240
+Number of objective gradient evaluations             = 86
+Number of equality constraint evaluations            = 240
+Number of inequality constraint evaluations          = 0
+Number of equality constraint Jacobian evaluations   = 90
+Number of inequality constraint Jacobian evaluations = 0
+Number of Lagrangian Hessian evaluations             = 86
+Total seconds in IPOPT                               = 0.049
+
+EXIT: Optimal Solution Found.
+1.0050000000000423
+0.0050000000000412674
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>(A solution can be found in <code class="docutils literal notranslate"><span class="pre">formulation_2_soln.py</span></code>.)</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\min_{x,y} &amp;~ f(x,y) = (x - 1.01)^2 + y^2 \\
+\text{s.t.} &amp;~~ \frac{x}{y+1} = 1
+\end{aligned}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">obj_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="mf">1.01</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">obj_rule</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">con_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">/</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">==</span> <span class="mf">1.0</span>
+<span class="n">model</span><span class="o">.</span><span class="n">con</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">con_rule</span><span class="p">)</span>
+
+<span class="n">solver</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;ipopt&#39;</span><span class="p">)</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ipopt 3.14.12: 
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+This is Ipopt version 3.14.12, running with linear solver MUMPS 5.2.1.
+
+Number of nonzeros in equality constraint Jacobian...:        2
+Number of nonzeros in inequality constraint Jacobian.:        0
+Number of nonzeros in Lagrangian Hessian.............:        3
+
+Total number of variables............................:        2
+                     variables with only lower bounds:        0
+                variables with lower and upper bounds:        0
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:        1
+Total number of inequality constraints...............:        0
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:        0
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0  4.0920100e+01 1.67e-01 9.83e+00  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
+   1  4.0023722e-01 1.49e+00 2.82e+01  -1.0 5.39e+00    -  1.00e+00 1.00e+00f  1
+   2  1.0494629e+01 1.04e+00 2.24e+01  -1.0 2.58e+00    -  1.00e+00 1.00e+00h  1
+   3  5.4394796e+00 1.78e-01 8.48e+00  -1.0 1.23e+00    -  1.00e+00 1.00e+00f  1
+   4  1.0538196e-01 1.52e-01 3.90e+00  -1.0 1.75e+00    -  1.00e+00 1.00e+00f  1
+   5  4.6918851e-02 2.17e-02 1.20e+00  -1.0 1.63e-01    -  1.00e+00 1.00e+00h  1
+   6  1.3071752e-04 2.88e-03 1.19e-01  -1.0 1.62e-01    -  1.00e+00 1.00e+00h  1
+   7  4.9833353e-05 1.79e-05 1.02e-03  -2.5 6.25e-03    -  1.00e+00 1.00e+00h  1
+   8  5.0000013e-05 1.28e-09 6.30e-08  -5.7 9.00e-05    -  1.00e+00 1.00e+00h  1
+   9  5.0000000e-05 0.00e+00 3.30e-16  -8.6 4.58e-09    -  1.00e+00 1.00e+00h  1
+
+Number of Iterations....: 9
+
+                                   (scaled)                 (unscaled)
+Objective...............:   4.9999999999999169e-05    4.9999999999999169e-05
+Dual infeasibility......:   3.2959746043559335e-16    3.2959746043559335e-16
+Constraint violation....:   0.0000000000000000e+00    0.0000000000000000e+00
+Variable bound violation:   0.0000000000000000e+00    0.0000000000000000e+00
+Complementarity.........:   0.0000000000000000e+00    0.0000000000000000e+00
+Overall NLP error.......:   3.2959746043559335e-16    3.2959746043559335e-16
+
+
+Number of objective function evaluations             = 10
+Number of objective gradient evaluations             = 10
+Number of equality constraint evaluations            = 10
+Number of inequality constraint evaluations          = 0
+Number of equality constraint Jacobian evaluations   = 10
+Number of inequality constraint Jacobian evaluations = 0
+Number of Lagrangian Hessian evaluations             = 9
+Total seconds in IPOPT                               = 0.007
+
+EXIT: Optimal Solution Found.
+1.0050000000000001
+0.0050000000000000235
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>(A solution can be found in <code class="docutils literal notranslate"><span class="pre">formulation_3_soln.py</span></code>.)</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\min_{x,y} &amp;~ f(x,y) = (x - 1.01)^2 + y^2 \\
+\text{s.t.} &amp;~~ y = x-1 \\
+\end{aligned}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">obj_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="mf">1.01</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">obj_rule</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">con_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="mf">1.0</span>
+<span class="n">model</span><span class="o">.</span><span class="n">con</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">con_rule</span><span class="p">)</span>
+
+<span class="n">solver</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;ipopt&#39;</span><span class="p">)</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ipopt 3.14.12: 
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+This is Ipopt version 3.14.12, running with linear solver MUMPS 5.2.1.
+
+Number of nonzeros in equality constraint Jacobian...:        2
+Number of nonzeros in inequality constraint Jacobian.:        0
+Number of nonzeros in Lagrangian Hessian.............:        2
+
+Total number of variables............................:        2
+                     variables with only lower bounds:        0
+                variables with lower and upper bounds:        0
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:        1
+Total number of inequality constraints...............:        0
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:        0
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0  4.0920100e+01 1.00e+00 8.99e+00  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
+   1  5.0000000e-05 0.00e+00 4.44e-16  -1.0 5.00e+00    -  1.00e+00 1.00e+00f  1
+
+Number of Iterations....: 1
+
+                                   (scaled)                 (unscaled)
+Objective...............:   5.0000000000000090e-05    5.0000000000000090e-05
+Dual infeasibility......:   4.4408920985006262e-16    4.4408920985006262e-16
+Constraint violation....:   0.0000000000000000e+00    0.0000000000000000e+00
+Variable bound violation:   0.0000000000000000e+00    0.0000000000000000e+00
+Complementarity.........:   0.0000000000000000e+00    0.0000000000000000e+00
+Overall NLP error.......:   4.4408920985006262e-16    4.4408920985006262e-16
+
+
+Number of objective function evaluations             = 2
+Number of objective gradient evaluations             = 2
+Number of equality constraint evaluations            = 2
+Number of inequality constraint evaluations          = 0
+Number of equality constraint Jacobian evaluations   = 2
+Number of inequality constraint Jacobian evaluations = 0
+Number of Lagrangian Hessian evaluations             = 1
+Total seconds in IPOPT                               = 0.003
+
+EXIT: Optimal Solution Found.
+1.005
+0.004999999999999893
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Bounds and initialization can be very helpful when solving nonlinear optimization problems.
+Starting with <code class="docutils literal notranslate"><span class="pre">formulation_incomplete.py</span></code>, resolver the original problem, but add bounds, <span class="math notranslate nohighlight">\(y \geq 0\)</span>.
+Note the number of iterations and quality of solution, and compare with what you found in 1.2.2.
+(A solution can be found in <code class="docutils literal notranslate"><span class="pre">formulation_4_soln.py</span></code>.)</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="kc">None</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">obj_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="mf">1.01</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">obj_rule</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">con_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="mf">1.0</span>
+<span class="n">model</span><span class="o">.</span><span class="n">con</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">con_rule</span><span class="p">)</span>
+
+<span class="n">solver</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;ipopt&#39;</span><span class="p">)</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ipopt 3.14.12: 
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+This is Ipopt version 3.14.12, running with linear solver MUMPS 5.2.1.
+
+Number of nonzeros in equality constraint Jacobian...:        2
+Number of nonzeros in inequality constraint Jacobian.:        0
+Number of nonzeros in Lagrangian Hessian.............:        3
+
+Total number of variables............................:        2
+                     variables with only lower bounds:        1
+                variables with lower and upper bounds:        0
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:        1
+Total number of inequality constraints...............:        0
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:        0
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0  4.0920100e+01 2.00e-01 9.38e+00  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
+   1  9.7049410e-01 1.89e+01 2.29e+03  -1.0 5.19e+00    -  1.00e+00 9.54e-01f  1
+   2  2.8303563e+03 1.85e+01 2.25e+03  -1.0 5.21e+01    -  1.88e-02 1.00e+00h  1
+   3  2.9704435e+03 9.12e+00 1.14e+03  -1.0 2.64e+00    -  1.00e+00 1.00e+00h  1
+   4  2.5293245e+03 4.09e+00 5.51e+02  -1.0 4.89e+00    -  8.94e-01 1.00e+00f  1
+   5  1.7547126e+03 1.52e+00 2.52e+02  -1.0 1.04e+01    -  1.00e+00 1.00e+00f  1
+   6  6.8047428e+02 1.49e-01 8.49e+01  -1.0 1.93e+01    -  1.00e+00 1.00e+00f  1
+   7  7.4721920e+00 8.01e-01 2.32e+02  -1.0 1.91e+01    -  1.00e+00 1.00e+00f  1
+   8  8.1969347e+03 7.77e-01 2.62e+02  -1.0 8.57e+01    -  3.37e-02 1.00e+00h  1
+   9  1.1605265e+04 2.36e-01 4.89e+02  -1.0 6.40e+01    -  1.00e+00 1.00e+00h  1
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+  10  5.5411085e+02 5.19e-01 5.83e+02  -1.0 7.36e+01    -  1.00e+00 1.00e+00f  1
+  11  1.7377623e+04 4.22e-01 5.65e+02  -1.0 9.29e+01    -  3.00e-01 1.00e+00h  1
+  12  1.1573362e+04 1.25e-01 1.63e+02  -1.0 6.64e+01    -  1.00e+00 5.00e-01f  2
+  13  3.3128549e+03 8.55e-03 9.20e+01  -1.0 8.52e+01    -  1.00e+00 4.70e-01f  2
+  14  7.1443870e-01 8.34e-01 1.80e+03  -1.0 4.11e+01    -  1.00e+00 9.85e-01f  1
+  15  3.2462198e-05 4.75e-01 1.05e+03  -1.0 1.73e+02    -  1.00e+00 4.30e-03f  1
+  16  9.8963008e-05 2.74e-01 8.52e+02  -1.0 1.41e+00    -  1.00e+00 4.23e-03h  1
+  17  9.2105755e-05 2.40e-01 5.57e+02  -1.0 3.56e-04    -  1.00e+00 1.00e+00f  1
+  18  7.9772743e-05 1.58e-01 3.60e+02  -1.0 7.13e-04    -  1.00e+00 1.00e+00h  1
+  19  6.9741224e-05 6.86e-02 1.47e+02  -1.0 7.40e-04    -  1.00e+00 1.00e+00h  1
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+  20  4.9888137e-05 3.97e-02 6.88e+01  -1.0 2.39e-03    -  1.00e+00 1.00e+00h  1
+  21  3.3950490e-04 3.02e-02 4.89e+01  -1.0 1.32e-02    -  1.00e+00 1.00e+00f  1
+  22  3.7536170e-03 1.95e-02 3.11e+01  -1.0 3.12e-02    -  1.00e+00 1.00e+00h  1
+  23  1.2981580e-02 8.58e-03 1.36e+01  -1.0 3.74e-02    -  1.00e+00 1.00e+00h  1
+  24  3.4681398e-02 3.23e-03 5.01e+00  -1.0 5.13e-02    -  1.00e+00 1.00e+00h  1
+  25  4.7179466e-02 4.50e-04 7.03e-01  -1.0 2.21e-02    -  1.00e+00 1.00e+00h  1
+  26  1.7082443e-02 2.83e-04 3.55e-01  -1.7 6.13e-02    -  1.00e+00 1.00e+00f  1
+  27  1.0216180e-02 7.79e-05 1.09e-01  -1.7 2.10e-02    -  1.00e+00 1.00e+00h  1
+  28  3.1289054e-03 5.64e-05 3.27e-02  -2.5 3.21e-02    -  1.00e+00 1.00e+00h  1
+  29  1.4987215e-03 2.18e-05 2.21e-02  -2.5 1.23e-02    -  1.00e+00 1.00e+00h  1
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+  30  3.8554063e-04 1.69e-05 4.50e-03  -3.8 1.40e-02    -  1.00e+00 1.00e+00h  1
+  31  1.3832051e-04 9.18e-06 4.39e-03  -3.8 6.31e-03    -  1.00e+00 1.00e+00h  1
+  32  8.9968997e-05 2.11e-06 9.99e-06  -3.8 2.18e-03    -  1.00e+00 1.00e+00h  1
+  33  5.4301800e-05 9.79e-07 2.80e-03  -5.7 3.00e-03    -  1.00e+00 1.00e+00h  1
+  34  5.0216846e-05 2.09e-07 1.11e-04  -5.7 1.14e-03    -  1.00e+00 1.00e+00h  1
+  35  5.0020268e-05 9.37e-09 2.55e-05  -5.7 2.29e-04    -  1.00e+00 1.00e+00h  1
+  36  5.0016425e-05 1.85e-11 1.06e-08  -5.7 1.00e-05    -  1.00e+00 1.00e+00h  1
+  37  5.0000006e-05 3.39e-13 3.16e-06  -8.6 8.89e-05    -  1.00e+00 1.00e+00h  1
+  38  5.0000000e-05 5.55e-15 4.02e-13  -8.6 1.58e-06    -  1.00e+00 1.00e+00h  1
+
+Number of Iterations....: 38
+
+                                   (scaled)                 (unscaled)
+Objective...............:   5.0000000031647193e-05    5.0000000031647193e-05
+Dual infeasibility......:   4.0225288377992996e-13    4.0225288377992996e-13
+Constraint violation....:   5.5511151231257827e-15    5.5511151231257827e-15
+Variable bound violation:   0.0000000000000000e+00    0.0000000000000000e+00
+Complementarity.........:   2.5158913589264014e-09    2.5158913589264014e-09
+Overall NLP error.......:   2.5158913589264014e-09    2.5158913589264014e-09
+
+
+Number of objective function evaluations             = 44
+Number of objective gradient evaluations             = 39
+Number of equality constraint evaluations            = 44
+Number of inequality constraint evaluations          = 0
+Number of equality constraint Jacobian evaluations   = 39
+Number of inequality constraint Jacobian evaluations = 0
+Number of Lagrangian Hessian evaluations             = 38
+Total seconds in IPOPT                               = 0.020
+
+EXIT: Optimal Solution Found.
+1.0050001257911454
+0.005000125791145421
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="reactor-design-problem-hart-et-al-2017-bequette-2003">
+<h3>1.4. Reactor design problem (Hart et al., 2017; Bequette, 2003)<a class="headerlink" href="#reactor-design-problem-hart-et-al-2017-bequette-2003" title="Permalink to this heading">#</a></h3>
+<p>In this example, we will consider a chemical reactor designed to produce product <span class="math notranslate nohighlight">\(B\)</span> from reactant <span class="math notranslate nohighlight">\(A\)</span> using a reaction scheme known as the Van de Vusse reaction:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A \stackrel{k_1}{\rightarrow} B \stackrel{k_2}{\rightarrow} C \\
+2A \stackrel{k_3}{\rightarrow} D
+\end{split}\]</div>
+<p>Under the appropriate assumptions, <span class="math notranslate nohighlight">\(F\)</span> is the volumetric flowrate through the tank.
+The concentration of component <span class="math notranslate nohighlight">\(A\)</span> in the feed is <span class="math notranslate nohighlight">\(c_{Af}\)</span>, and the concentrations in the reactor are equivalent to the concentrations of each component flowing out of the reactor, given by <span class="math notranslate nohighlight">\(c_A\)</span>, <span class="math notranslate nohighlight">\(c_B\)</span>, <span class="math notranslate nohighlight">\(c_C\)</span>, and <span class="math notranslate nohighlight">\(c_D\)</span>.</p>
+<p>If the reactor is too small, we will not produce sufficient quantity of <span class="math notranslate nohighlight">\(B\)</span>, and if the reactor is too large, much of <span class="math notranslate nohighlight">\(B\)</span> will be further reacted to form the undesired product <span class="math notranslate nohighlight">\(C\)</span>.
+Therefore, our goal is to solve for the reactor volume that maximizes the outlet concentration for product <span class="math notranslate nohighlight">\(B\)</span>.</p>
+<p>The steady-state mole balances for each of the four components are given by,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+0 =&amp; \frac{F}{V} c_{Af} - \frac{F}{V} c_{A} - k_1 c_A - 2 k_3 c_A^2 \\
+0 =&amp; - \frac{F}{V} c_{B} + k_1 c_A - k_2 c_B \\
+0 =&amp; - \frac{F}{V} c_{C} + k_2 c_B \\
+0 =&amp; - \frac{F}{V} c_{D} + k_3 c_A^2
+\end{aligned}
+\end{split}\]</div>
+<p>The known parameters for the system are,</p>
+<div class="math notranslate nohighlight">
+\[
+c_{Af} = 10 \frac{\text{gmol}}{\text{m}^3} \quad k_1 = \frac{5}{6} \text{min}^{-1} \quad k_2 = \frac{5}{6} \text{min}^{-1} \quad k_3 = \frac{1}{6000} \frac{\text{m}^3}{\text{mol} \cdot \text{min}}.
+\]</div>
+<p>Formulate and solve this optimization problem using Pyomo.
+Since the volumetric flowrate <span class="math notranslate nohighlight">\(F\)</span> always appears as the numerator over the reactor volume <span class="math notranslate nohighlight">\(V\)</span>, it is common to consider this ratio as a single variable, called the space-velocity <span class="math notranslate nohighlight">\(SV\)</span>.
+(A solution to this problem can be found in <code class="docutils literal notranslate"><span class="pre">reactor_design_soln.py</span></code>.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create the concrete model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+
+<span class="c1"># set the data (native python data)</span>
+<span class="n">k1</span> <span class="o">=</span> <span class="mf">5.0</span><span class="o">/</span><span class="mf">6.0</span>     <span class="c1"># min^-1</span>
+<span class="n">k2</span> <span class="o">=</span> <span class="mf">5.0</span><span class="o">/</span><span class="mf">3.0</span>     <span class="c1"># min^-1</span>
+<span class="n">k3</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="mf">6000.0</span>  <span class="c1"># m^3/(gmol min)</span>
+<span class="n">caf</span> <span class="o">=</span> <span class="mf">10000.0</span>    <span class="c1"># gmol/m^3</span>
+
+<span class="c1"># create the variables</span>
+<span class="n">model</span><span class="o">.</span><span class="n">sv</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">PositiveReals</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">ca</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span> <span class="o">=</span> <span class="mf">5000.0</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">PositiveReals</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">cb</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span> <span class="o">=</span> <span class="mf">2000.0</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">PositiveReals</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">cc</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span> <span class="o">=</span> <span class="mf">2000.0</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">PositiveReals</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">cd</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span> <span class="o">=</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">PositiveReals</span><span class="p">)</span>
+
+<span class="c1"># create the objective</span>
+<span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">cb</span><span class="p">,</span> <span class="n">sense</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">maximize</span><span class="p">)</span>
+
+<span class="c1"># create the constraints</span>
+<span class="n">model</span><span class="o">.</span><span class="n">ca_bal</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="n">model</span><span class="o">.</span><span class="n">sv</span> <span class="o">*</span> <span class="n">caf</span> \
+                 <span class="o">-</span> <span class="n">model</span><span class="o">.</span><span class="n">sv</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">ca</span> <span class="o">-</span> <span class="n">k1</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">ca</span> \
+                 <span class="o">-</span>  <span class="mf">2.0</span> <span class="o">*</span> <span class="n">k3</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">ca</span> <span class="o">**</span> <span class="mf">2.0</span><span class="p">))</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">cb_bal</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="o">-</span><span class="n">model</span><span class="o">.</span><span class="n">sv</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">cb</span> \
+                 <span class="o">+</span> <span class="n">k1</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">ca</span> <span class="o">-</span> <span class="n">k2</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">cb</span><span class="p">))</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">cc_bal</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="o">-</span><span class="n">model</span><span class="o">.</span><span class="n">sv</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">cc</span> \
+                 <span class="o">+</span> <span class="n">k2</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">cb</span><span class="p">))</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">cd_bal</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="o">-</span><span class="n">model</span><span class="o">.</span><span class="n">sv</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">cd</span> \
+                 <span class="o">+</span> <span class="n">k3</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">ca</span> <span class="o">**</span> <span class="mf">2.0</span><span class="p">))</span>
+
+<span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;ipopt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">pprint</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5 Var Declarations
+    ca : Size=1, Index=None
+        Key  : Lower : Value              : Upper : Fixed : Stale : Domain
+        None :     0 : 3874.2588672317133 :  None : False : False : PositiveReals
+    cb : Size=1, Index=None
+        Key  : Lower : Value             : Upper : Fixed : Stale : Domain
+        None :     0 : 1072.437200108632 :  None : False : False : PositiveReals
+    cc : Size=1, Index=None
+        Key  : Lower : Value             : Upper : Fixed : Stale : Domain
+        None :     0 : 1330.093533408881 :  None : False : False : PositiveReals
+    cd : Size=1, Index=None
+        Key  : Lower : Value              : Upper : Fixed : Stale : Domain
+        None :     0 : 1861.6051996253873 :  None : False : False : PositiveReals
+    sv : Size=1, Index=None
+        Key  : Lower : Value              : Upper : Fixed : Stale : Domain
+        None :     0 : 1.3438117610672777 :  None : False : False : PositiveReals
+
+1 Objective Declarations
+    obj : Size=1, Index=None, Active=True
+        Key  : Active : Sense    : Expression
+        None :   True : maximize :         cb
+
+4 Constraint Declarations
+    ca_bal : Size=1, Index=None, Active=True
+        Key  : Lower : Body                                                                       : Upper : Active
+        None :   0.0 : 10000.0*sv - sv*ca - 0.8333333333333334*ca - 0.0003333333333333333*ca**2.0 :   0.0 :   True
+    cb_bal : Size=1, Index=None, Active=True
+        Key  : Lower : Body                                                    : Upper : Active
+        None :   0.0 : - sv*cb + 0.8333333333333334*ca - 1.6666666666666667*cb :   0.0 :   True
+    cc_bal : Size=1, Index=None, Active=True
+        Key  : Lower : Body                            : Upper : Active
+        None :   0.0 : - sv*cc + 1.6666666666666667*cb :   0.0 :   True
+    cd_bal : Size=1, Index=None, Active=True
+        Key  : Lower : Body                                     : Upper : Active
+        None :   0.0 : - sv*cd + 0.00016666666666666666*ca**2.0 :   0.0 :   True
+
+10 Declarations: sv ca cb cc cd obj ca_bal cb_bal cc_bal cd_bal
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/PyomoNonlinear"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../PyomoFundamentals/Fundamentals.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Pyomo Summer Workshop 2018 Exercise Problem - Pyomo Fundamentals</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../genindex.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Index</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-rosenbrock-function">Example: Rosenbrock function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-nonlinear-problems">Exercise 1: Nonlinear Problems</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative-initialization">1.1. Alternative Initialization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-errors">1.2. Evaluation errors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative-formulations">1.3. Alternative Formulations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reactor-design-problem-hart-et-al-2017-bequette-2003">1.4. Reactor design problem (Hart et al., 2017; Bequette, 2003)</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Bernal Research Group
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
