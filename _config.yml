@@ -2,7 +2,7 @@
 # Learn more at https://jupyterbook.org/customize/config.html
 
 title: Pyomo Tutorial
-author: The Bernal Research Group
+author: SECQUOIA Research Group
 logo: media/Pyomo-logo.png
 exclude_patterns: [.DS_Store, "**.ipynb_checkpoints", "**.pytest_cache", "tools"]
 
