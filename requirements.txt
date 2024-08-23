@@ -1,6 +1,6 @@
 # libraries for book development
 jupyter-book
-mermaid
+# mermaid
 sphinx # sphinxcontrib-mermaid
 ghp-import
 
