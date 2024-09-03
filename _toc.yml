@@ -5,5 +5,6 @@ root: intro.md
 chapters:
 - file: notebooks/python/python-exercises.ipynb
 - file: notebooks/PyomoFundamentals/Fundamentals.ipynb
+- file: notebooks/PyomoFundamentals/Pyomo_Fundamental.ipynb
 - file: notebooks/PyomoNonlinear/PyomoNonlinear.ipynb
 - file: genindex.md 
