@@ -3,11 +3,6 @@
 format: jb-book
 root: intro.md
 chapters:
-- file: notebooks/python/python-list.ipynb
-- file: notebooks/python/python-dictionary.ipynb
-- file: notebooks/python/python-forloop.ipynb
-- file: notebooks/python/python-function.ipynb
-- file: notebooks/python/python-pandas.ipynb
 - file: notebooks/python/python-exercises.ipynb
 - file: notebooks/PyomoFundamentals/Fundamentals.ipynb
 - file: notebooks/PyomoNonlinear/PyomoNonlinear.ipynb
