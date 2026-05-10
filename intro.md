@@ -13,7 +13,7 @@ Start your journey with the [first chapter](/notebooks/python/python-exercises.i
 
 ## Help us!
 
-We seek your feedback! If you encounter an issue or have suggestions on how to make these examples better, please open an issue using the link at the top of every page (look for the Github cat icon). 
+We seek your feedback! If you encounter an issue or have suggestions on how to make these examples better, please open an issue using the link at the top of every page (look for the GitHub cat icon).
 
 ## About Us
 
