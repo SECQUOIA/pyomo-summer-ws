@@ -6,10 +6,7 @@ ghp-import
 
 # libraries for most notebooks
 pyomo
-numpy
-matplotlib
 
 # libraries for specific application
 ccxt
 graphviz
-
