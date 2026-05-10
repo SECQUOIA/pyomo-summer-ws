@@ -1,5 +1,5 @@
 # libraries for book development
-jupyter-book
+jupyter-book<2
 # mermaid
 sphinx # sphinxcontrib-mermaid
 ghp-import
@@ -10,5 +10,4 @@ pyomo
 # libraries for specific application
 ccxt
 graphviz
-
 

@@ -9,11 +9,11 @@ derives from the [Pyomo summer workshop 2018](http://www.pyomo.org/workshop-exam
 
 All notebooks in this repository can be opened and run in Google Colab. A launch icon appearing at the top of a page (look for the rocket) indicates the notebook can be opened as an executable document. Selecting Colab will reopen the notebook in Google Colab. Cells inside of the notebooks will perform any necessary installations of Pyomo and solvers needed to execute the code within the notebook.
 
-Start your journey with the [first chapter](/notebooks/python-dictionary.ipynb)!
+Start your journey with the [first chapter](/notebooks/python/python-exercises.ipynb)!
 
 ## Help us!
 
-We seek your feedback! If you encounter an issue or have suggestions on how to make these examples better, please open an issue using the link at the top of every page (look for the Github cat icon). 
+We seek your feedback! If you encounter an issue or have suggestions on how to make these examples better, please open an issue using the link at the top of every page (look for the GitHub cat icon).
 
 ## About Us
 
