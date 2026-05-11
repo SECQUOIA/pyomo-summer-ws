@@ -1,0 +1,26 @@
+name: Content bug
+description: Report an error in tutorial text, math, code, or outputs.
+title: "[Content]: "
+labels: ["bug", "documentation"]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Page or notebook
+      description: Link to the page, notebook, or section with the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong?
+      description: Describe the incorrect text, math, code, or expected result.
+    validations:
+      required: true
+  - type: textarea
+    id: suggested_fix
+    attributes:
+      label: Suggested fix
+      description: Share a correction if you have one.
+    validations:
+      required: false

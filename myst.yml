@@ -3,21 +3,22 @@ project:
   title: Pyomo Tutorial
   authors:
     - name: SECQUOIA Research Group
+      url: https://engineering.purdue.edu/SECQUOIA
   copyright: "2026"
-  github: SECQUOIA/pyomo-summer-ws
+  edit_url: null
+  bibliography: references.bib
   toc:
     - file: intro.md
-    - file: notebooks/python/python-exercises.ipynb
+    - file: setup.md
+    - file: notebooks/01-python-basics/python-exercises.ipynb
       title: Python Basics
-    - file: notebooks/PyomoFundamentals/Fundamentals.ipynb
-    - file: notebooks/PyomoNonlinear/PyomoNonlinear.ipynb
+    - file: notebooks/02-pyomo-fundamentals/Fundamentals.ipynb
+    - file: notebooks/03-pyomo-nonlinear/PyomoNonlinear.ipynb
 site:
   template: book-theme
   options:
     folders: true
+    logo_text: Pyomo Tutorial
   actions:
-    - title: Open in Colab
-      url: colab.html
-      static: true
     - title: Open an Issue
-      url: https://github.com/SECQUOIA/pyomo-summer-ws/issues/new
+      url: https://github.com/SECQUOIA/pyomo-summer-ws/issues/new/choose

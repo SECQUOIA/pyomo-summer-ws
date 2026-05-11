@@ -1,0 +1,26 @@
+name: Teaching feedback
+description: Share feedback from using the tutorial in a workshop or course.
+title: "[Teaching]: "
+labels: ["documentation", "enhancement"]
+body:
+  - type: input
+    id: context
+    attributes:
+      label: Course or workshop context
+      description: Briefly describe the audience and setting.
+    validations:
+      required: true
+  - type: textarea
+    id: feedback
+    attributes:
+      label: Feedback
+      description: What worked, what was confusing, or what should change?
+    validations:
+      required: true
+  - type: textarea
+    id: suggested_change
+    attributes:
+      label: Suggested change
+      description: Optional concrete update to the tutorial or repository.
+    validations:
+      required: false

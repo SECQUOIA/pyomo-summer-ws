@@ -1,0 +1,38 @@
+name: Solver or runtime failure
+description: Report a notebook execution, dependency, GLPK, or IPOPT problem.
+title: "[Runtime]: "
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      options:
+        - Google Colab
+        - Local uv environment
+        - Conda environment
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Notebook or exercise
+      description: Link to the page, notebook, or exercise file.
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command or cell
+      description: Paste the command or notebook cell that failed.
+    validations:
+      required: true
+  - type: textarea
+    id: error
+    attributes:
+      label: Error output
+      description: Paste the relevant traceback, solver message, or install error.
+      render: text
+    validations:
+      required: true
