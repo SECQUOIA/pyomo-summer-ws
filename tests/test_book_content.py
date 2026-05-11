@@ -8,9 +8,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PUBLISHED_NOTEBOOKS = (
-    "notebooks/python/python-exercises.ipynb",
-    "notebooks/PyomoFundamentals/Fundamentals.ipynb",
-    "notebooks/PyomoNonlinear/PyomoNonlinear.ipynb",
+    "notebooks/01-python-basics/python-exercises.ipynb",
+    "notebooks/02-pyomo-fundamentals/Fundamentals.ipynb",
+    "notebooks/03-pyomo-nonlinear/PyomoNonlinear.ipynb",
 )
 
 
@@ -55,15 +55,27 @@ def load_static_site_module():
 class BookContentTests(unittest.TestCase):
     def test_python_chapter_is_python_basics(self):
         toc = (ROOT / "myst.yml").read_text()
-        notebook = notebook_source("notebooks/python/python-exercises.ipynb")
+        notebook = notebook_source("notebooks/01-python-basics/python-exercises.ipynb")
 
         self.assertIn("title: Python Basics", toc)
         self.assertEqual(1, toc.count("title: Python Basics"))
-        self.assertEqual(1, toc.count("notebooks/python/python-exercises.ipynb"))
+        self.assertEqual(1, toc.count("notebooks/01-python-basics/python-exercises.ipynb"))
         self.assertIn("# Python Basics", notebook)
         self.assertNotIn("# Python Fundamentals", notebook)
         self.assertNotIn("Pyomo Summer Workshop 2018 Exercise Problem - Python", toc)
         self.assertNotIn("Pyomo Summer Workshop 2018 Exercise Problem - Python", notebook)
+
+    def test_published_notebooks_follow_numbered_learning_sequence(self):
+        toc = (ROOT / "myst.yml").read_text()
+
+        self.assertEqual(tuple(sorted(PUBLISHED_NOTEBOOKS)), PUBLISHED_NOTEBOOKS)
+
+        previous_index = -1
+        for notebook_path in PUBLISHED_NOTEBOOKS:
+            with self.subTest(notebook=notebook_path):
+                current_index = toc.index(notebook_path)
+                self.assertGreater(current_index, previous_index)
+                previous_index = current_index
 
     def test_placeholder_index_is_not_in_book(self):
         toc = (ROOT / "myst.yml").read_text()
@@ -111,7 +123,7 @@ class BookContentTests(unittest.TestCase):
         self.assertNotIn("mailto:", rendered_text)
 
     def test_nonlinear_solution_files_are_linked(self):
-        nonlinear = notebook_source("notebooks/PyomoNonlinear/PyomoNonlinear.ipynb")
+        nonlinear = notebook_source("notebooks/03-pyomo-nonlinear/PyomoNonlinear.ipynb")
 
         expected_links = (
             "../exercises/Nonlinear/exercises-1/evaluation_error_bounds_soln.py",
@@ -173,9 +185,12 @@ class BookContentTests(unittest.TestCase):
         redirects = load_legacy_redirects_module()
         expected_redirects = {
             "intro.html": "./",
-            "notebooks/python/python-exercises.html": "python-exercises/",
-            "notebooks/PyomoFundamentals/Fundamentals.html": "../pyomofundamentals/fundamentals/",
-            "notebooks/PyomoNonlinear/PyomoNonlinear.html": "../pyomononlinear/pyomononlinear/",
+            "notebooks/python/python-exercises.html": "../python-basics/python-exercises/",
+            "notebooks/python/python-exercises/index.html": "../../python-basics/python-exercises/",
+            "notebooks/PyomoFundamentals/Fundamentals.html": "../pyomo-fundamentals/fundamentals/",
+            "notebooks/pyomofundamentals/fundamentals/index.html": "../../pyomo-fundamentals/fundamentals/",
+            "notebooks/PyomoNonlinear/PyomoNonlinear.html": "../pyomo-nonlinear/pyomononlinear/",
+            "notebooks/pyomononlinear/pyomononlinear/index.html": "../../pyomo-nonlinear/pyomononlinear/",
         }
 
         self.assertEqual(expected_redirects, redirects.LEGACY_REDIRECTS)
@@ -218,9 +233,9 @@ class BookContentTests(unittest.TestCase):
             checker.main()
 
     def test_reviewed_content_polish_is_applied(self):
-        python_basics = notebook_source("notebooks/python/python-exercises.ipynb")
-        fundamentals = notebook_source("notebooks/PyomoFundamentals/Fundamentals.ipynb")
-        nonlinear = notebook_source("notebooks/PyomoNonlinear/PyomoNonlinear.ipynb")
+        python_basics = notebook_source("notebooks/01-python-basics/python-exercises.ipynb")
+        fundamentals = notebook_source("notebooks/02-pyomo-fundamentals/Fundamentals.ipynb")
+        nonlinear = notebook_source("notebooks/03-pyomo-nonlinear/PyomoNonlinear.ipynb")
 
         self.assertNotIn("returneed", python_basics)
         self.assertNotIn("Using the list comprehensions", python_basics)
@@ -229,23 +244,32 @@ class BookContentTests(unittest.TestCase):
         self.assertNotIn("Hagen et al. (2001)", fundamentals)
         self.assertNotIn("You should get list of errors", nonlinear)
 
-    def test_notebooks_are_cleared_for_publication(self):
+    def test_notebooks_are_executed_for_publication(self):
         for notebook_path in PUBLISHED_NOTEBOOKS:
             notebook = json.loads((ROOT / notebook_path).read_text())
+            output_cells = 0
             for index, cell in enumerate(notebook["cells"]):
                 if cell.get("cell_type") != "code":
                     continue
                 with self.subTest(notebook=notebook_path, cell=index):
-                    self.assertIsNone(cell.get("execution_count"))
-                    self.assertEqual([], cell.get("outputs"))
+                    self.assertIsNotNone(cell.get("execution_count"))
+                    self.assertFalse(
+                        any(output.get("output_type") == "error" for output in cell.get("outputs", [])),
+                        f"{notebook_path} cell {index} contains saved error output",
+                    )
+                    if cell.get("outputs"):
+                        output_cells += 1
+
+            with self.subTest(notebook=notebook_path):
+                self.assertGreater(output_cells, 0)
 
     def test_setup_solver_and_solution_guidance_is_published(self):
         intro = (ROOT / "intro.md").read_text()
         setup = (ROOT / "setup.md").read_text()
         myst = (ROOT / "myst.yml").read_text()
-        python_basics = notebook_source("notebooks/python/python-exercises.ipynb")
-        fundamentals = notebook_source("notebooks/PyomoFundamentals/Fundamentals.ipynb")
-        nonlinear = notebook_source("notebooks/PyomoNonlinear/PyomoNonlinear.ipynb")
+        python_basics = notebook_source("notebooks/01-python-basics/python-exercises.ipynb")
+        fundamentals = notebook_source("notebooks/02-pyomo-fundamentals/Fundamentals.ipynb")
+        nonlinear = notebook_source("notebooks/03-pyomo-nonlinear/PyomoNonlinear.ipynb")
 
         self.assertIn("file: setup.md", myst)
         self.assertIn("## Learning objectives", intro)
@@ -262,9 +286,9 @@ class BookContentTests(unittest.TestCase):
     def test_citations_and_references_are_consistent(self):
         references = (ROOT / "references.bib").read_text()
         myst = (ROOT / "myst.yml").read_text()
-        fundamentals = notebook_source("notebooks/PyomoFundamentals/Fundamentals.ipynb")
-        nonlinear = notebook_source("notebooks/PyomoNonlinear/PyomoNonlinear.ipynb")
-        python_basics = notebook_source("notebooks/python/python-exercises.ipynb")
+        fundamentals = notebook_source("notebooks/02-pyomo-fundamentals/Fundamentals.ipynb")
+        nonlinear = notebook_source("notebooks/03-pyomo-nonlinear/PyomoNonlinear.ipynb")
+        python_basics = notebook_source("notebooks/01-python-basics/python-exercises.ipynb")
 
         self.assertIn("bibliography: references.bib", myst)
         self.assertIn("@book{hart2017pyomo", references)
@@ -277,9 +301,15 @@ class BookContentTests(unittest.TestCase):
     def test_global_colab_action_is_replaced_with_direct_notebook_links(self):
         myst = (ROOT / "myst.yml").read_text()
         notebook_links = {
-            "notebooks/python/python-exercises.ipynb": notebook_source("notebooks/python/python-exercises.ipynb"),
-            "notebooks/PyomoFundamentals/Fundamentals.ipynb": notebook_source("notebooks/PyomoFundamentals/Fundamentals.ipynb"),
-            "notebooks/PyomoNonlinear/PyomoNonlinear.ipynb": notebook_source("notebooks/PyomoNonlinear/PyomoNonlinear.ipynb"),
+            "notebooks/01-python-basics/python-exercises.ipynb": notebook_source(
+                "notebooks/01-python-basics/python-exercises.ipynb"
+            ),
+            "notebooks/02-pyomo-fundamentals/Fundamentals.ipynb": notebook_source(
+                "notebooks/02-pyomo-fundamentals/Fundamentals.ipynb"
+            ),
+            "notebooks/03-pyomo-nonlinear/PyomoNonlinear.ipynb": notebook_source(
+                "notebooks/03-pyomo-nonlinear/PyomoNonlinear.ipynb"
+            ),
         }
 
         self.assertNotIn("title: Open in Colab", myst)
@@ -360,7 +390,7 @@ class BookContentTests(unittest.TestCase):
         self.assertIn("Built with <a href=\"https://jupyterbook.org/\">Jupyter Book</a>.", config)
 
     def test_python_pandas_import_precedes_pd_usage(self):
-        notebook = json.loads((ROOT / "notebooks/python/python-exercises.ipynb").read_text())
+        notebook = json.loads((ROOT / "notebooks/01-python-basics/python-exercises.ipynb").read_text())
 
         seen_pandas_import = False
         for cell in notebook["cells"]:
@@ -374,8 +404,8 @@ class BookContentTests(unittest.TestCase):
         self.fail("Expected the Python Basics notebook to use pd.read_csv")
 
     def test_python_exercises_have_subsection_headings(self):
-        python_source = notebook_source("notebooks/python/python-exercises.ipynb")
-        headings = notebook_markdown_headings("notebooks/python/python-exercises.ipynb")
+        python_source = notebook_source("notebooks/01-python-basics/python-exercises.ipynb")
+        headings = notebook_markdown_headings("notebooks/01-python-basics/python-exercises.ipynb")
 
         expected_exercise_headings = (
             *(f"### Exercise 1.{number}" for number in range(1, 8)),

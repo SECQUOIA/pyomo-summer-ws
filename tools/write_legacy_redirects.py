@@ -8,9 +8,12 @@ BUILD_DIR = Path("_build/html")
 
 LEGACY_REDIRECTS = {
     "intro.html": "./",
-    "notebooks/python/python-exercises.html": "python-exercises/",
-    "notebooks/PyomoFundamentals/Fundamentals.html": "../pyomofundamentals/fundamentals/",
-    "notebooks/PyomoNonlinear/PyomoNonlinear.html": "../pyomononlinear/pyomononlinear/",
+    "notebooks/python/python-exercises.html": "../python-basics/python-exercises/",
+    "notebooks/python/python-exercises/index.html": "../../python-basics/python-exercises/",
+    "notebooks/PyomoFundamentals/Fundamentals.html": "../pyomo-fundamentals/fundamentals/",
+    "notebooks/pyomofundamentals/fundamentals/index.html": "../../pyomo-fundamentals/fundamentals/",
+    "notebooks/PyomoNonlinear/PyomoNonlinear.html": "../pyomo-nonlinear/pyomononlinear/",
+    "notebooks/pyomononlinear/pyomononlinear/index.html": "../../pyomo-nonlinear/pyomononlinear/",
 }
 
 

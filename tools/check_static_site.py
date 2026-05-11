@@ -12,23 +12,23 @@ BUILD_DIR = Path("_build/html")
 REQUIRED_ROUTES = (
     "index.html",
     "setup/index.html",
-    "notebooks/python/python-exercises/index.html",
-    "notebooks/pyomofundamentals/fundamentals/index.html",
-    "notebooks/pyomononlinear/pyomononlinear/index.html",
+    "notebooks/python-basics/python-exercises/index.html",
+    "notebooks/pyomo-fundamentals/fundamentals/index.html",
+    "notebooks/pyomo-nonlinear/pyomononlinear/index.html",
 )
 
 NOTEBOOK_COLAB_LINKS = {
-    "notebooks/python/python-exercises/index.html": (
+    "notebooks/python-basics/python-exercises/index.html": (
         "https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/"
-        "blob/main/notebooks/python/python-exercises.ipynb"
+        "blob/main/notebooks/01-python-basics/python-exercises.ipynb"
     ),
-    "notebooks/pyomofundamentals/fundamentals/index.html": (
+    "notebooks/pyomo-fundamentals/fundamentals/index.html": (
         "https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/"
-        "blob/main/notebooks/PyomoFundamentals/Fundamentals.ipynb"
+        "blob/main/notebooks/02-pyomo-fundamentals/Fundamentals.ipynb"
     ),
-    "notebooks/pyomononlinear/pyomononlinear/index.html": (
+    "notebooks/pyomo-nonlinear/pyomononlinear/index.html": (
         "https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/"
-        "blob/main/notebooks/PyomoNonlinear/PyomoNonlinear.ipynb"
+        "blob/main/notebooks/03-pyomo-nonlinear/PyomoNonlinear.ipynb"
     ),
 }
 EXPECTED_LOGO_TEXT = "Pyomo Tutorial"

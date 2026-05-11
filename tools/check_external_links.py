@@ -15,9 +15,9 @@ SOURCE_PATHS = (
     "setup.md",
     "myst.yml",
     "requirements.txt",
-    "notebooks/python/python-exercises.ipynb",
-    "notebooks/PyomoFundamentals/Fundamentals.ipynb",
-    "notebooks/PyomoNonlinear/PyomoNonlinear.ipynb",
+    "notebooks/01-python-basics/python-exercises.ipynb",
+    "notebooks/02-pyomo-fundamentals/Fundamentals.ipynb",
+    "notebooks/03-pyomo-nonlinear/PyomoNonlinear.ipynb",
 )
 URL_RE = re.compile(r"https?://[^\s)>\"]+")
 

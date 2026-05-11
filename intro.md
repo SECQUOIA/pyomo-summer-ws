@@ -8,7 +8,7 @@ The tutorial adapts material from the [Pyomo Summer Workshop 2018](http://www.py
 
 [Pyomo](https://en.wikipedia.org/wiki/Pyomo) is a complete and versatile mathematical optimization package for the Python ecosystem. Pyomo provides a means to build models for optimization using the concepts of decision variables, constraints, and objectives from mathematical optimization, then transform and generate solutions using open source or commercial solvers.
 
-Start with [Python Basics](/notebooks/python/python-exercises.ipynb), then continue into the Pyomo modeling chapters. Python Basics covers the language patterns used later in the optimization examples, Pyomo Fundamentals introduces modeling components and mixed-integer examples, and Pyomo Nonlinear Problems covers nonlinear models and solver behavior.
+Start with [Python Basics](/notebooks/01-python-basics/python-exercises.ipynb), then continue into the Pyomo modeling chapters. Python Basics covers the language patterns used later in the optimization examples, Pyomo Fundamentals introduces modeling components and mixed-integer examples, and Pyomo Nonlinear Problems covers nonlinear models and solver behavior.
 
 ## Learning objectives
 

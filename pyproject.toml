@@ -11,6 +11,8 @@ docs = [
     "graphviz>=0.20,<1",
     "jupyter-book==2.1.0",
     "jupyterlab>=4.4,<5",
+    "openpyxl>=3.1,<4",
+    "pandas>=2.0,<3",
     "pyomo>=6.9,<7",
 ]
 

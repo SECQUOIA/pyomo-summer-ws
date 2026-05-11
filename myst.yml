@@ -10,10 +10,10 @@ project:
   toc:
     - file: intro.md
     - file: setup.md
-    - file: notebooks/python/python-exercises.ipynb
+    - file: notebooks/01-python-basics/python-exercises.ipynb
       title: Python Basics
-    - file: notebooks/PyomoFundamentals/Fundamentals.ipynb
-    - file: notebooks/PyomoNonlinear/PyomoNonlinear.ipynb
+    - file: notebooks/02-pyomo-fundamentals/Fundamentals.ipynb
+    - file: notebooks/03-pyomo-nonlinear/PyomoNonlinear.ipynb
 site:
   template: book-theme
   options:

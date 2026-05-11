@@ -6,9 +6,9 @@ This page collects the commands and solver notes needed to build the site or run
 
 Use these links to open the published notebooks directly in Google Colab:
 
-- [Python Basics](https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/blob/main/notebooks/python/python-exercises.ipynb)
-- [Pyomo Fundamentals](https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/blob/main/notebooks/PyomoFundamentals/Fundamentals.ipynb)
-- [Pyomo Nonlinear Problems](https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/blob/main/notebooks/PyomoNonlinear/PyomoNonlinear.ipynb)
+- [Python Basics](https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/blob/main/notebooks/01-python-basics/python-exercises.ipynb)
+- [Pyomo Fundamentals](https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/blob/main/notebooks/02-pyomo-fundamentals/Fundamentals.ipynb)
+- [Pyomo Nonlinear Problems](https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/blob/main/notebooks/03-pyomo-nonlinear/PyomoNonlinear.ipynb)
 
 The nonlinear notebook installs the IDAES extension bundle in Colab when IPOPT is missing. The fundamentals notebook uses GLPK for mixed-integer examples; install GLPK before running those cells in a fresh runtime.
 
