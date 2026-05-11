@@ -9,8 +9,13 @@ Use these links to open the published notebooks directly in Google Colab:
 - [Python Basics](https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/blob/main/notebooks/01-python-basics/python-exercises.ipynb)
 - [Pyomo Fundamentals](https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/blob/main/notebooks/02-pyomo-fundamentals/Fundamentals.ipynb)
 - [Pyomo Nonlinear Problems](https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/blob/main/notebooks/03-pyomo-nonlinear/PyomoNonlinear.ipynb)
+- [Blocks and Model Transformations](https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/blob/main/notebooks/04-structured-modeling/BlocksAndTransformations.ipynb)
+- [Dynamic Systems](https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/blob/main/notebooks/05-dynamic-systems/DynamicSystems.ipynb)
+- [Generalized Disjunctive Programming](https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/blob/main/notebooks/06-gdp/GDP.ipynb)
+- [Pyomo contrib and Debugging Tools](https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/blob/main/notebooks/07-contrib-debugging/ContribAndDebugging.ipynb)
 
 The nonlinear notebook installs the IDAES extension bundle in Colab when IPOPT is missing. The fundamentals notebook uses GLPK for mixed-integer examples; install GLPK before running those cells in a fresh runtime.
+The dynamic-system notebook uses IPOPT for discretized optimization examples and SciPy for the simulation exercise; Colab includes SciPy by default.
 
 ## Local Environment
 

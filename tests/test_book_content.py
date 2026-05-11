@@ -11,6 +11,10 @@ PUBLISHED_NOTEBOOKS = (
     "notebooks/01-python-basics/python-exercises.ipynb",
     "notebooks/02-pyomo-fundamentals/Fundamentals.ipynb",
     "notebooks/03-pyomo-nonlinear/PyomoNonlinear.ipynb",
+    "notebooks/04-structured-modeling/BlocksAndTransformations.ipynb",
+    "notebooks/05-dynamic-systems/DynamicSystems.ipynb",
+    "notebooks/06-gdp/GDP.ipynb",
+    "notebooks/07-contrib-debugging/ContribAndDebugging.ipynb",
 )
 
 
@@ -270,15 +274,24 @@ class BookContentTests(unittest.TestCase):
         python_basics = notebook_source("notebooks/01-python-basics/python-exercises.ipynb")
         fundamentals = notebook_source("notebooks/02-pyomo-fundamentals/Fundamentals.ipynb")
         nonlinear = notebook_source("notebooks/03-pyomo-nonlinear/PyomoNonlinear.ipynb")
+        structured = notebook_source("notebooks/04-structured-modeling/BlocksAndTransformations.ipynb")
+        dynamic = notebook_source("notebooks/05-dynamic-systems/DynamicSystems.ipynb")
+        gdp = notebook_source("notebooks/06-gdp/GDP.ipynb")
+        debugging = notebook_source("notebooks/07-contrib-debugging/ContribAndDebugging.ipynb")
 
         self.assertIn("file: setup.md", myst)
         self.assertIn("## Learning objectives", intro)
         self.assertIn("## Learning objectives", python_basics)
         self.assertIn("## Learning objectives", fundamentals)
         self.assertIn("## Learning objectives", nonlinear)
+        self.assertIn("## Learning objectives", structured)
+        self.assertIn("## Learning objectives", dynamic)
+        self.assertIn("## Learning objectives", gdp)
+        self.assertIn("## Learning objectives", debugging)
         self.assertIn("Solutions Policy", setup)
         self.assertIn("GLPK", setup)
         self.assertIn("IPOPT", setup)
+        self.assertIn("SciPy", setup)
         self.assertIn("glpsol", setup)
         self.assertIn("ipopt", setup)
         self.assertIn("self-study build includes solution cells", python_basics)
@@ -309,6 +322,16 @@ class BookContentTests(unittest.TestCase):
             ),
             "notebooks/03-pyomo-nonlinear/PyomoNonlinear.ipynb": notebook_source(
                 "notebooks/03-pyomo-nonlinear/PyomoNonlinear.ipynb"
+            ),
+            "notebooks/04-structured-modeling/BlocksAndTransformations.ipynb": notebook_source(
+                "notebooks/04-structured-modeling/BlocksAndTransformations.ipynb"
+            ),
+            "notebooks/05-dynamic-systems/DynamicSystems.ipynb": notebook_source(
+                "notebooks/05-dynamic-systems/DynamicSystems.ipynb"
+            ),
+            "notebooks/06-gdp/GDP.ipynb": notebook_source("notebooks/06-gdp/GDP.ipynb"),
+            "notebooks/07-contrib-debugging/ContribAndDebugging.ipynb": notebook_source(
+                "notebooks/07-contrib-debugging/ContribAndDebugging.ipynb"
             ),
         }
 

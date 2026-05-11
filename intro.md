@@ -2,13 +2,13 @@
 
 Welcome to the *Pyomo Tutorial*. The [SECQUOIA Research Group](https://engineering.purdue.edu/SECQUOIA) maintains these notebooks for learners who want a practical introduction to Python-based mathematical optimization with Pyomo.
 
-The tutorial adapts material from the [Pyomo Summer Workshop 2018](http://www.pyomo.org/workshop-examples) and updates it for current Python and Pyomo workflows. It is designed for workshops, classroom use, and self-study.
+The tutorial adapts material from the [Pyomo Summer Workshop 2018](http://www.pyomo.org/workshop-examples) and the current [Pyomo tutorials repository](https://github.com/Pyomo/pyomo-tutorials), updating it for current Python and Pyomo workflows. It is designed for workshops, classroom use, and self-study.
 
 ## Recommended path
 
 [Pyomo](https://en.wikipedia.org/wiki/Pyomo) is a complete and versatile mathematical optimization package for the Python ecosystem. Pyomo provides a means to build models for optimization using the concepts of decision variables, constraints, and objectives from mathematical optimization, then transform and generate solutions using open source or commercial solvers.
 
-Start with [Python Basics](/notebooks/01-python-basics/python-exercises.ipynb), then continue into the Pyomo modeling chapters. Python Basics covers the language patterns used later in the optimization examples, Pyomo Fundamentals introduces modeling components and mixed-integer examples, and Pyomo Nonlinear Problems covers nonlinear models and solver behavior.
+Start with [Python Basics](/notebooks/01-python-basics/python-exercises.ipynb), then continue into the Pyomo modeling chapters. Python Basics covers the language patterns used later in the optimization examples, Pyomo Fundamentals introduces modeling components and mixed-integer examples, and Pyomo Nonlinear Problems covers nonlinear models and solver behavior. The later chapters add structured modeling with blocks, model transformations, dynamic systems, generalized disjunctive programming, and Pyomo debugging utilities.
 
 ## Learning objectives
 
@@ -17,6 +17,8 @@ After completing the tutorial, you should be able to:
 - use core Python data structures and control flow in modeling scripts;
 - formulate Pyomo variables, objectives, constraints, sets, and parameters;
 - solve linear, mixed-integer, and nonlinear Pyomo models with appropriate solvers;
+- organize larger models with blocks and Pyomo transformations;
+- formulate dynamic-system and generalized disjunctive programming examples;
 - diagnose common modeling and solver failures;
 - adapt the examples for new classroom or self-study exercises.
 
@@ -36,4 +38,4 @@ The [SECQUOIA Research Group](https://engineering.purdue.edu/SECQUOIA) develops 
 
 Individual contributors include David Bernal, Zedong Peng, Hamta Bardool, and Albert Lee.
 
-These materials adapt the public Pyomo workshop examples and Pyomo modeling references. Notebook-specific references appear in the relevant chapters.
+These materials adapt the public Pyomo workshop examples and Pyomo modeling references. Notebook-specific references appear in the relevant chapters, and third-party notice details are collected in [Third-Party Notices](./THIRD_PARTY_NOTICES.md).

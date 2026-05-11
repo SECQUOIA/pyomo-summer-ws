@@ -14,6 +14,16 @@ project:
       title: Python Basics
     - file: notebooks/02-pyomo-fundamentals/Fundamentals.ipynb
     - file: notebooks/03-pyomo-nonlinear/PyomoNonlinear.ipynb
+    - file: notebooks/04-structured-modeling/BlocksAndTransformations.ipynb
+      title: Blocks and Model Transformations
+    - file: notebooks/05-dynamic-systems/DynamicSystems.ipynb
+      title: Dynamic Systems
+    - file: notebooks/06-gdp/GDP.ipynb
+      title: Generalized Disjunctive Programming
+    - file: notebooks/07-contrib-debugging/ContribAndDebugging.ipynb
+      title: Pyomo contrib and Debugging Tools
+    - file: THIRD_PARTY_NOTICES.md
+      title: Third-Party Notices
 site:
   template: book-theme
   options:
