@@ -44,6 +44,14 @@ def load_legacy_redirects_module():
     return module
 
 
+def load_static_site_module():
+    module_path = ROOT / "tools/check_static_site.py"
+    spec = importlib.util.spec_from_file_location("check_static_site", module_path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 class BookContentTests(unittest.TestCase):
     def test_python_chapter_is_python_basics(self):
         toc = (ROOT / "myst.yml").read_text()
@@ -93,6 +101,7 @@ class BookContentTests(unittest.TestCase):
 
         self.assertIn("author: SECQUOIA Research Group", config)
         self.assertIn("url: https://engineering.purdue.edu/SECQUOIA", myst)
+        self.assertIn("edit_url: null", myst)
         self.assertIn(secquoia_link, intro)
         self.assertIn(secquoia_link, rendered_text)
         self.assertIn("Individual contributors include David Bernal", intro)
@@ -132,6 +141,9 @@ class BookContentTests(unittest.TestCase):
         self.assertIn("uv run --group docs python -m unittest discover -s tests", workflow)
         self.assertIn("uv run --group docs jupyter book build --html --ci", workflow)
         self.assertIn("uv run --group docs python tools/write_legacy_redirects.py", workflow)
+        self.assertIn("uv run --group docs python tools/check_static_site.py", workflow)
+        self.assertIn("python tools/check_external_links.py", workflow)
+        self.assertIn("schedule:", workflow)
         self.assertIn("BASE_URL: /pyomo-summer-ws", workflow)
         self.assertNotIn("BASE_URL: /pyomo-summer-ws/", workflow)
         self.assertIn('"/pyomo-summer-ws//" _build/html', workflow)
@@ -154,6 +166,8 @@ class BookContentTests(unittest.TestCase):
         self.assertIn("uv run --group docs python -m unittest discover -s tests", readme)
         self.assertIn("uv run --group docs jupyter book build --html --ci", readme)
         self.assertIn("uv run --group docs python tools/write_legacy_redirects.py", readme)
+        self.assertIn("uv run --group docs python tools/check_static_site.py", readme)
+        self.assertIn("setup.md", readme)
 
     def test_legacy_redirect_pages_are_generated(self):
         redirects = load_legacy_redirects_module()
@@ -177,6 +191,27 @@ class BookContentTests(unittest.TestCase):
                     self.assertIn(f'href="{target}"', html)
                     self.assertIn(f'window.location.replace("{target}")', html)
 
+    def test_static_site_checker_validates_generated_behavior(self):
+        checker = load_static_site_module()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            build_dir = Path(tmpdir)
+            checker.BUILD_DIR = build_dir
+
+            for route in checker.REQUIRED_ROUTES:
+                path = build_dir / route
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("<html></html>", encoding="utf-8")
+
+            for route, colab_url in checker.NOTEBOOK_COLAB_LINKS.items():
+                path = build_dir / route
+                path.write_text(f"<html><a href=\"{colab_url}\">Colab</a></html>", encoding="utf-8")
+
+            redirects = load_legacy_redirects_module()
+            redirects.write_redirects(build_dir)
+
+            checker.main()
+
     def test_reviewed_content_polish_is_applied(self):
         python_basics = notebook_source("notebooks/python/python-exercises.ipynb")
         fundamentals = notebook_source("notebooks/PyomoFundamentals/Fundamentals.ipynb")
@@ -189,6 +224,89 @@ class BookContentTests(unittest.TestCase):
         self.assertNotIn("Hagen et al. (2001)", fundamentals)
         self.assertNotIn("You should get list of errors", nonlinear)
 
+    def test_notebooks_are_cleared_for_publication(self):
+        for notebook_path in PUBLISHED_NOTEBOOKS:
+            notebook = json.loads((ROOT / notebook_path).read_text())
+            for index, cell in enumerate(notebook["cells"]):
+                if cell.get("cell_type") != "code":
+                    continue
+                with self.subTest(notebook=notebook_path, cell=index):
+                    self.assertIsNone(cell.get("execution_count"))
+                    self.assertEqual([], cell.get("outputs"))
+
+    def test_setup_solver_and_solution_guidance_is_published(self):
+        intro = (ROOT / "intro.md").read_text()
+        setup = (ROOT / "setup.md").read_text()
+        myst = (ROOT / "myst.yml").read_text()
+        python_basics = notebook_source("notebooks/python/python-exercises.ipynb")
+        fundamentals = notebook_source("notebooks/PyomoFundamentals/Fundamentals.ipynb")
+        nonlinear = notebook_source("notebooks/PyomoNonlinear/PyomoNonlinear.ipynb")
+
+        self.assertIn("file: setup.md", myst)
+        self.assertIn("## Learning objectives", intro)
+        self.assertIn("## Learning objectives", python_basics)
+        self.assertIn("## Learning objectives", fundamentals)
+        self.assertIn("## Learning objectives", nonlinear)
+        self.assertIn("Solutions Policy", setup)
+        self.assertIn("GLPK", setup)
+        self.assertIn("IPOPT", setup)
+        self.assertIn("glpsol", setup)
+        self.assertIn("ipopt", setup)
+        self.assertIn("self-study build includes solution cells", python_basics)
+
+    def test_citations_and_references_are_consistent(self):
+        references = (ROOT / "references.bib").read_text()
+        myst = (ROOT / "myst.yml").read_text()
+        fundamentals = notebook_source("notebooks/PyomoFundamentals/Fundamentals.ipynb")
+        nonlinear = notebook_source("notebooks/PyomoNonlinear/PyomoNonlinear.ipynb")
+        python_basics = notebook_source("notebooks/python/python-exercises.ipynb")
+
+        self.assertIn("bibliography: references.bib", myst)
+        self.assertIn("@book{hart2017pyomo", references)
+        self.assertIn("@book{bequette2003process", references)
+        self.assertIn("Hackebeil", references)
+        self.assertIn("[@hart2011pyomo; @bynum2021pyomo]", python_basics)
+        self.assertIn("[@hart2017pyomo; @bynum2021pyomo]", fundamentals)
+        self.assertIn("[@bequette2003process]", nonlinear)
+
+    def test_global_colab_action_is_replaced_with_direct_notebook_links(self):
+        myst = (ROOT / "myst.yml").read_text()
+        notebook_links = {
+            "notebooks/python/python-exercises.ipynb": notebook_source("notebooks/python/python-exercises.ipynb"),
+            "notebooks/PyomoFundamentals/Fundamentals.ipynb": notebook_source("notebooks/PyomoFundamentals/Fundamentals.ipynb"),
+            "notebooks/PyomoNonlinear/PyomoNonlinear.ipynb": notebook_source("notebooks/PyomoNonlinear/PyomoNonlinear.ipynb"),
+        }
+
+        self.assertNotIn("title: Open in Colab", myst)
+        self.assertFalse((ROOT / "colab.html").exists())
+        for notebook_path, source in notebook_links.items():
+            with self.subTest(notebook=notebook_path):
+                self.assertIn(
+                    f"https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/blob/main/{notebook_path}",
+                    source,
+                )
+
+    def test_issue_templates_cover_public_feedback_paths(self):
+        template_dir = ROOT / ".github/ISSUE_TEMPLATE"
+        expected_templates = {
+            "content_bug.yml": "Content bug",
+            "broken_link.yml": "Broken link",
+            "solver_runtime_failure.yml": "Solver or runtime failure",
+            "teaching_feedback.yml": "Teaching feedback",
+        }
+
+        for filename, name in expected_templates.items():
+            with self.subTest(template=filename):
+                template = (template_dir / filename).read_text()
+                self.assertIn(f"name: {name}", template)
+                self.assertIn("body:", template)
+
+        self.assertIn("blank_issues_enabled: true", (template_dir / "config.yml").read_text())
+
+    def test_stale_tracked_files_are_removed(self):
+        self.assertFalse((ROOT / "python/helper.py").exists())
+        self.assertFalse((ROOT / "media/P020220518619618731410.doc").exists())
+
     def test_build_artifacts_and_local_environments_are_ignored(self):
         gitignore = (ROOT / ".gitignore").read_text().splitlines()
         config = (ROOT / "_config.yml").read_text()
@@ -197,22 +315,17 @@ class BookContentTests(unittest.TestCase):
         self.assertIn('"_build"', config)
         self.assertIn('".venv"', config)
 
-    def test_v2_book_config_follows_quip_colab_format(self):
+    def test_v2_book_config_follows_myst_v2_site_settings(self):
         myst = (ROOT / "myst.yml").read_text()
         config = (ROOT / "_config.yml").read_text()
-        colab = (ROOT / "colab.html").read_text()
 
-        self.assertIn("github: SECQUOIA/pyomo-summer-ws", myst)
-        self.assertLess(myst.index("title: Open in Colab"), myst.index("title: Open an Issue"))
-        self.assertIn("url: colab.html", myst)
-        self.assertIn("static: true", myst)
-        self.assertIn("https://github.com/SECQUOIA/pyomo-summer-ws/issues/new", myst)
+        self.assertIn("edit_url: null", myst)
+        self.assertIn("bibliography: references.bib", myst)
+        self.assertIn("https://github.com/SECQUOIA/pyomo-summer-ws/issues/new/choose", myst)
         self.assertIn("url: https://github.com/SECQUOIA/pyomo-summer-ws", config)
         self.assertIn("path_to_book: .", config)
         self.assertIn("use_edit_page_button: false", config)
         self.assertIn("Built with <a href=\"https://jupyterbook.org/\">Jupyter Book</a>.", config)
-        self.assertIn("https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws", colab)
-        self.assertIn("https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/blob/main/", colab)
 
     def test_python_pandas_import_precedes_pd_usage(self):
         notebook = json.loads((ROOT / "notebooks/python/python-exercises.ipynb").read_text())

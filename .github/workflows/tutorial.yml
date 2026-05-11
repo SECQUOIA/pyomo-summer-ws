@@ -7,9 +7,12 @@ on:
   pull_request:
     branches:
     - main
+  schedule:
+  - cron: "0 8 * * 1"
 
 jobs:
   build-book:
+    if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -60,6 +63,10 @@ jobs:
           exit 1
         fi
 
+    - name: Check generated static site
+      run: |
+        uv run --group docs python tools/check_static_site.py
+
     - name: Upload artifact
       if: github.event_name == 'push'
       uses: actions/upload-pages-artifact@v5
@@ -77,3 +84,15 @@ jobs:
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v5
+
+  link-check:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+    - uses: actions/checkout@v6
+
+    - name: Check external links
+      run: |
+        python tools/check_external_links.py

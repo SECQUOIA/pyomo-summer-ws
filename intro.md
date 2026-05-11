@@ -10,18 +10,30 @@ The tutorial adapts material from the [Pyomo Summer Workshop 2018](http://www.py
 
 Start with [Python Basics](/notebooks/python/python-exercises.ipynb), then continue into the Pyomo modeling chapters. Python Basics covers the language patterns used later in the optimization examples, Pyomo Fundamentals introduces modeling components and mixed-integer examples, and Pyomo Nonlinear Problems covers nonlinear models and solver behavior.
 
+## Learning objectives
+
+After completing the tutorial, you should be able to:
+
+- use core Python data structures and control flow in modeling scripts;
+- formulate Pyomo variables, objectives, constraints, sets, and parameters;
+- solve linear, mixed-integer, and nonlinear Pyomo models with appropriate solvers;
+- diagnose common modeling and solver failures;
+- adapt the examples for new classroom or self-study exercises.
+
 ## Prerequisites
 
-All notebooks in this repository can be opened and run in Google Colab. A launch icon appearing at the top of a page (look for the rocket) indicates the notebook can be opened as an executable document. Selecting Colab will reopen the notebook in Google Colab. Cells inside of the notebooks will perform any necessary installations of Pyomo and solvers needed to execute the code within the notebook.
+All notebooks in this repository can be opened and run in Google Colab from direct links on each notebook page. For local use, install the documentation environment with `uv`. The examples use Pyomo; some solver examples require GLPK or IPOPT to be available in the active environment.
 
-For local use, install the documentation environment with `uv`. The examples use Pyomo; some solver examples require GLPK or IPOPT to be available in the active environment.
+See [Setup and Solvers](/setup.md) for local preview commands, Colab links, and solver installation notes.
 
 ## Feedback
 
-We welcome reports about content bugs, broken links, solver/runtime failures, and teaching feedback. Please [open an issue](https://github.com/SECQUOIA/pyomo-summer-ws/issues/new) with the page, section, and command or notebook cell that produced the problem.
+We welcome reports about content bugs, broken links, solver/runtime failures, and teaching feedback. Please [open an issue](https://github.com/SECQUOIA/pyomo-summer-ws/issues/new/choose) with the page, section, and command or notebook cell that produced the problem.
 
 ## Credits
 
 The [SECQUOIA Research Group](https://engineering.purdue.edu/SECQUOIA) develops these materials for classroom teaching and for learners entering the world of mathematical programming.
 
 Individual contributors include David Bernal, Zedong Peng, Hamta Bardool, and Albert Lee.
+
+These materials adapt the public Pyomo workshop examples and Pyomo modeling references. Notebook-specific references appear in the relevant chapters.

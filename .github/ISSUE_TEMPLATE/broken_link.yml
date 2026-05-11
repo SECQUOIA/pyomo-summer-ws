@@ -1,0 +1,26 @@
+name: Broken link
+description: Report a broken internal, external, or Colab link.
+title: "[Link]: "
+labels: ["links"]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Page with the link
+      description: Link to the page or source file that contains the broken link.
+    validations:
+      required: true
+  - type: input
+    id: link
+    attributes:
+      label: Broken link
+      description: Paste the link target that failed.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: What happened?
+      description: Include the HTTP status, error message, or redirect behavior if available.
+    validations:
+      required: false
