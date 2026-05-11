@@ -69,6 +69,20 @@ class BookContentTests(unittest.TestCase):
         self.assertIn("jupyter-book build .", workflow)
         self.assertIn("if: github.event_name == 'push'", workflow)
 
+    def test_python_pandas_import_precedes_pd_usage(self):
+        notebook = json.loads((ROOT / "notebooks/python/python-exercises.ipynb").read_text())
+
+        seen_pandas_import = False
+        for cell in notebook["cells"]:
+            source = "".join(cell.get("source", ""))
+            if "import pandas as pd" in source:
+                seen_pandas_import = True
+            if "pd.read_csv" in source:
+                self.assertTrue(seen_pandas_import)
+                return
+
+        self.fail("Expected the Python Basics notebook to use pd.read_csv")
+
 
 if __name__ == "__main__":
     unittest.main()
