@@ -40,8 +40,12 @@ class BookContentTests(unittest.TestCase):
         notebook = notebook_source("notebooks/python/python-exercises.ipynb")
 
         self.assertIn("title: Python Basics", toc)
+        self.assertEqual(1, toc.count("title: Python Basics"))
+        self.assertEqual(1, toc.count("notebooks/python/python-exercises.ipynb"))
         self.assertIn("# Python Basics", notebook)
         self.assertNotIn("# Python Fundamentals", notebook)
+        self.assertNotIn("Pyomo Summer Workshop 2018 Exercise Problem - Python", toc)
+        self.assertNotIn("Pyomo Summer Workshop 2018 Exercise Problem - Python", notebook)
 
     def test_placeholder_index_is_not_in_book(self):
         toc = (ROOT / "myst.yml").read_text()
@@ -53,6 +57,22 @@ class BookContentTests(unittest.TestCase):
         for notebook_path in PUBLISHED_NOTEBOOKS:
             with self.subTest(notebook=notebook_path):
                 self.assertNotIn("TODO", notebook_source(notebook_path))
+
+    def test_exercise_todos_are_limited_to_learner_templates(self):
+        exercise_files = tuple((ROOT / "notebooks/exercises").glob("**/*.py"))
+        self.assertGreater(len(exercise_files), 0)
+
+        for path in exercise_files:
+            source = path.read_text()
+            if "TODO" not in source:
+                continue
+
+            relative_path = path.relative_to(ROOT).as_posix()
+            with self.subTest(path=relative_path):
+                self.assertTrue(
+                    path.name.endswith("_incomplete.py"),
+                    f"{relative_path} contains TODO markers but is not a learner template",
+                )
 
     def test_contact_and_branding_are_current(self):
         config = (ROOT / "_config.yml").read_text()
