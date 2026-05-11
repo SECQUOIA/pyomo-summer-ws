@@ -20,6 +20,19 @@ def notebook_source(path):
     return "\n".join(chunks)
 
 
+def notebook_markdown_headings(path):
+    notebook = json.loads((ROOT / path).read_text())
+    headings = []
+    for cell in notebook["cells"]:
+        if cell.get("cell_type") != "markdown":
+            continue
+        source = cell.get("source", "")
+        for line in ("".join(source) if isinstance(source, list) else source).splitlines():
+            if line.startswith("#"):
+                headings.append(line.strip())
+    return headings
+
+
 class BookContentTests(unittest.TestCase):
     def test_python_chapter_is_python_basics(self):
         toc = (ROOT / "_toc.yml").read_text()
@@ -82,6 +95,23 @@ class BookContentTests(unittest.TestCase):
                 return
 
         self.fail("Expected the Python Basics notebook to use pd.read_csv")
+
+    def test_python_exercises_have_subsection_headings(self):
+        python_source = notebook_source("notebooks/python/python-exercises.ipynb")
+        headings = notebook_markdown_headings("notebooks/python/python-exercises.ipynb")
+
+        expected_exercise_headings = (
+            *(f"### Exercise 1.{number}" for number in range(1, 8)),
+            *(f"### Exercise 2.{number}" for number in range(1, 5)),
+            *(f"### Exercise 3.{number}" for number in range(1, 7)),
+            *(f"### Exercise 4.{number}" for number in range(1, 4)),
+            *(f"### Exercise 5.{number}" for number in range(1, 3)),
+        )
+        for heading in expected_exercise_headings:
+            with self.subTest(heading=heading):
+                self.assertIn(heading, headings)
+
+        self.assertNotIn("Inline Exercise", python_source)
 
 
 if __name__ == "__main__":
