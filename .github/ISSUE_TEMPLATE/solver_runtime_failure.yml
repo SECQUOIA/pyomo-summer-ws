@@ -1,7 +1,7 @@
 name: Solver or runtime failure
 description: Report a notebook execution, dependency, GLPK, or IPOPT problem.
 title: "[Runtime]: "
-labels: ["runtime", "solvers"]
+labels: ["bug"]
 body:
   - type: dropdown
     id: environment

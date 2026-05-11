@@ -203,6 +203,11 @@ class BookContentTests(unittest.TestCase):
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text("<html></html>", encoding="utf-8")
 
+            (build_dir / "index.html").write_text(
+                '<html><a class="myst-home-link"><span>Pyomo Tutorial</span></a></html>',
+                encoding="utf-8",
+            )
+
             for route, colab_url in checker.NOTEBOOK_COLAB_LINKS.items():
                 path = build_dir / route
                 path.write_text(f"<html><a href=\"{colab_url}\">Colab</a></html>", encoding="utf-8")
@@ -303,6 +308,32 @@ class BookContentTests(unittest.TestCase):
 
         self.assertIn("blank_issues_enabled: true", (template_dir / "config.yml").read_text())
 
+    def test_issue_template_labels_exist_in_repository(self):
+        template_dir = ROOT / ".github/ISSUE_TEMPLATE"
+        known_labels = {
+            "bug",
+            "documentation",
+            "duplicate",
+            "enhancement",
+            "good first issue",
+            "help wanted",
+            "invalid",
+            "question",
+            "wontfix",
+        }
+
+        for template_path in template_dir.glob("*.yml"):
+            if template_path.name == "config.yml":
+                continue
+
+            labels_line = next(
+                line for line in template_path.read_text().splitlines() if line.startswith("labels:")
+            )
+            labels = json.loads(labels_line.removeprefix("labels:").strip())
+
+            with self.subTest(template=template_path.name):
+                self.assertLessEqual(set(labels), known_labels)
+
     def test_stale_tracked_files_are_removed(self):
         self.assertFalse((ROOT / "python/helper.py").exists())
         self.assertFalse((ROOT / "media/P020220518619618731410.doc").exists())
@@ -321,6 +352,7 @@ class BookContentTests(unittest.TestCase):
 
         self.assertIn("edit_url: null", myst)
         self.assertIn("bibliography: references.bib", myst)
+        self.assertIn("logo_text: Pyomo Tutorial", myst)
         self.assertIn("https://github.com/SECQUOIA/pyomo-summer-ws/issues/new/choose", myst)
         self.assertIn("url: https://github.com/SECQUOIA/pyomo-summer-ws", config)
         self.assertIn("path_to_book: .", config)

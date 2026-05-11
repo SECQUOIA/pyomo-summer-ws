@@ -1,7 +1,7 @@
 name: Teaching feedback
 description: Share feedback from using the tutorial in a workshop or course.
 title: "[Teaching]: "
-labels: ["teaching"]
+labels: ["documentation", "enhancement"]
 body:
   - type: input
     id: context

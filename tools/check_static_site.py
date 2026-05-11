@@ -31,6 +31,7 @@ NOTEBOOK_COLAB_LINKS = {
         "blob/main/notebooks/PyomoNonlinear/PyomoNonlinear.ipynb"
     ),
 }
+EXPECTED_LOGO_TEXT = "Pyomo Tutorial"
 
 
 def read_site_file(relative_path: str) -> str:
@@ -72,11 +73,28 @@ def check_colab_links() -> None:
             raise AssertionError(f"{route} is missing direct Colab link {colab_url}")
 
 
+def check_site_branding() -> None:
+    html = read_site_file("index.html")
+    home_link_start = html.find('class="myst-home-link')
+    if home_link_start == -1:
+        raise AssertionError("The generated site is missing the MyST home link")
+    home_link_end = html.find("</a>", home_link_start)
+    if home_link_end == -1:
+        raise AssertionError("The generated site home link is malformed")
+    home_link = html[home_link_start:home_link_end]
+
+    if "Made with MyST" in home_link:
+        raise AssertionError("The generated site still uses the default MyST home-link text")
+    if f">{EXPECTED_LOGO_TEXT}</span>" not in home_link:
+        raise AssertionError(f"The generated site home link does not show {EXPECTED_LOGO_TEXT!r}")
+
+
 def main() -> None:
     check_required_routes()
     check_legacy_redirects()
     check_edit_links_hidden()
     check_colab_links()
+    check_site_branding()
 
 
 if __name__ == "__main__":

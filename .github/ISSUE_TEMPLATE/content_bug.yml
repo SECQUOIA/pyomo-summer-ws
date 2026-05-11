@@ -1,7 +1,7 @@
 name: Content bug
 description: Report an error in tutorial text, math, code, or outputs.
 title: "[Content]: "
-labels: ["content"]
+labels: ["bug", "documentation"]
 body:
   - type: input
     id: page

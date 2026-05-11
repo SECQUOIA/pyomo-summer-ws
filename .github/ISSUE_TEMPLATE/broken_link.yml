@@ -1,7 +1,7 @@
 name: Broken link
 description: Report a broken internal, external, or Colab link.
 title: "[Link]: "
-labels: ["links"]
+labels: ["bug", "documentation"]
 body:
   - type: input
     id: page

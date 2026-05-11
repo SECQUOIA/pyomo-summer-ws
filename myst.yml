@@ -18,6 +18,7 @@ site:
   template: book-theme
   options:
     folders: true
+    logo_text: Pyomo Tutorial
   actions:
     - title: Open an Issue
       url: https://github.com/SECQUOIA/pyomo-summer-ws/issues/new/choose
