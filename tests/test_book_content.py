@@ -172,6 +172,7 @@ class BookContentTests(unittest.TestCase):
 
         docs_dependencies = pyproject["dependency-groups"]["docs"]
         self.assertIn("jupyter-book==2.1.0", docs_dependencies)
+        self.assertIn("pint>=0.24,<1", docs_dependencies)
         self.assertEqual(["docs"], pyproject["tool"]["uv"]["default-groups"])
         self.assertFalse(pyproject["tool"]["uv"]["package"])
 

@@ -13,6 +13,7 @@ docs = [
     "jupyterlab>=4.4,<5",
     "openpyxl>=3.1,<4",
     "pandas>=2.0,<3",
+    "pint>=0.24,<1",
     "pyomo>=6.9,<7",
 ]
 
