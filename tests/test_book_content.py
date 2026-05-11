@@ -116,14 +116,20 @@ class BookContentTests(unittest.TestCase):
         self.assertIn('"_build"', config)
         self.assertIn('".venv"', config)
 
-    def test_v2_book_config_preserves_repository_and_colab_links(self):
+    def test_v2_book_config_follows_quip_colab_format(self):
         myst = (ROOT / "myst.yml").read_text()
         config = (ROOT / "_config.yml").read_text()
         colab = (ROOT / "colab.html").read_text()
 
         self.assertIn("github: SECQUOIA/pyomo-summer-ws", myst)
+        self.assertLess(myst.index("title: Open in Colab"), myst.index("title: Open an Issue"))
+        self.assertIn("url: colab.html", myst)
+        self.assertIn("static: true", myst)
         self.assertIn("https://github.com/SECQUOIA/pyomo-summer-ws/issues/new", myst)
         self.assertIn("url: https://github.com/SECQUOIA/pyomo-summer-ws", config)
+        self.assertIn("path_to_book: .", config)
+        self.assertIn("use_edit_page_button: false", config)
+        self.assertIn("Built with <a href=\"https://jupyterbook.org/\">Jupyter Book</a>.", config)
         self.assertIn("https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws", colab)
         self.assertIn("https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/blob/main/", colab)
 

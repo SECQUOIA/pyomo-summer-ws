@@ -3,6 +3,7 @@ project:
   title: Pyomo Tutorial
   authors:
     - name: SECQUOIA Research Group
+  copyright: "2026"
   github: SECQUOIA/pyomo-summer-ws
   toc:
     - file: intro.md
@@ -15,8 +16,8 @@ site:
   options:
     folders: true
   actions:
-    - title: Open an Issue
-      url: https://github.com/SECQUOIA/pyomo-summer-ws/issues/new
     - title: Open in Colab
       url: colab.html
       static: true
+    - title: Open an Issue
+      url: https://github.com/SECQUOIA/pyomo-summer-ws/issues/new
