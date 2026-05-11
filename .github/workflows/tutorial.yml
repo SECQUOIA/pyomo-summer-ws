@@ -1,18 +1,13 @@
 name: deploy-book
 
-# Run this when the master or main branch changes
 on:
   push:
     branches:
     - main
-    # If your git repository has the Jupyter Book within some-subfolder next to
-    # unrelated files, you can make this run only if a file within that specific
-    # folder has been modified.
-    #
-    # paths:
-    # - some-subfolder/**
+  pull_request:
+    branches:
+    - main
 
-# This job installs dependencies, builds the book, and pushes it to `gh-pages`
 jobs:
   deploy-book:
     runs-on: ubuntu-latest
@@ -22,7 +17,6 @@ jobs:
     steps:
     - uses: actions/checkout@v6
 
-    # Install dependencies
     - name: Set up Python 3.11
       uses: actions/setup-python@v6
       with:
@@ -32,28 +26,27 @@ jobs:
       run: |
         pip install -r requirements.txt
 
-    # (optional) Cache your executed notebooks between runs
-    # if you have config:
-    # execute:
-    #   execute_notebooks: cache
+    - name: Run content tests
+      run: |
+        python -m unittest discover -s tests
+
     - name: cache executed notebooks
       uses: actions/cache@v5
       with:
         path: _build/.jupyter_cache
         key: jupyter-book-cache-${{ hashFiles('requirements.txt') }}
 
-    # Build the book
     - name: Build the book
       run: |
         jupyter-book build .
 
-    # Upload the book's HTML as an artifact
     - name: Upload artifact
+      if: github.event_name == 'push'
       uses: actions/upload-pages-artifact@v5
       with:
         path: "_build/html"
 
-    # Deploy the book's HTML to GitHub Pages
     - name: Deploy to GitHub Pages
+      if: github.event_name == 'push'
       id: deployment
       uses: actions/deploy-pages@v5
