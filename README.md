@@ -1,3 +1,3 @@
-# Notebooks for Pyomo Tutorial
+# Pyomo Tutorial
 
-This is the source repository for [Pyomo Tutorial](https://github.com/SECQUOIA/pyomo-summer-ws), which derives from the Pyomo summer workshop 2018 and uses the latest version of Pyomo.
+This repository contains the source notebooks for the [Pyomo Tutorial](https://github.com/SECQUOIA/pyomo-summer-ws). The tutorial adapts material from the Pyomo Summer Workshop 2018 and updates it for current Python and Pyomo workflows.

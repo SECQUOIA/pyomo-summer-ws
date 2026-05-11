@@ -1,7 +1,6 @@
 # Pyomo Tutorial
 
-Welcome to the *Pyomo Tutorial*, a project currently under development with completion expected by Winter, 2023. These notebooks 
-derives from the [Pyomo summer workshop 2018](http://www.pyomo.org/workshop-examples) and we update them with the latest version of Python and Pyomo.
+Welcome to the *Pyomo Tutorial*. These notebooks adapt material from the [Pyomo Summer Workshop 2018](http://www.pyomo.org/workshop-examples) and update it for current Python and Pyomo workflows.
 
 ## Getting started
 
@@ -9,15 +8,15 @@ derives from the [Pyomo summer workshop 2018](http://www.pyomo.org/workshop-exam
 
 All notebooks in this repository can be opened and run in Google Colab. A launch icon appearing at the top of a page (look for the rocket) indicates the notebook can be opened as an executable document. Selecting Colab will reopen the notebook in Google Colab. Cells inside of the notebooks will perform any necessary installations of Pyomo and solvers needed to execute the code within the notebook.
 
-Start your journey with the [first chapter](/notebooks/python/python-exercises.ipynb)!
+Start with [Python Basics](/notebooks/python/python-exercises.ipynb), then continue into the Pyomo modeling chapters.
 
 ## Help us!
 
-We seek your feedback! If you encounter an issue or have suggestions on how to make these examples better, please open an issue using the link at the top of every page (look for the GitHub cat icon).
+We seek your feedback. If you encounter an issue or have suggestions for improving these examples, please open an issue using the GitHub link at the top of any page.
 
 ## About Us
 
-We are a group of researchers and educators who came together with a common purpose of developing materials for use in our classroom teaching. Hopefully, these materials will find use in other classrooms and, most importantly, by those seeking entry into the world of mathematical programming.
+The SECQUOIA Research Group develops these materials for classroom teaching and for learners entering the world of mathematical programming.
 
 * David Bernal, Purdue University
 * Zedong Peng, Purdue University
