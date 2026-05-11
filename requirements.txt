@@ -1,13 +1,3 @@
-# libraries for book development
-jupyter-book<2
-# mermaid
-sphinx # sphinxcontrib-mermaid
-ghp-import
-
-# libraries for most notebooks
-pyomo
-
-# libraries for specific application
-ccxt
-graphviz
-
+# Dependency management has moved to pyproject.toml and uv.lock.
+# Use:
+#   uv sync --locked --group docs
