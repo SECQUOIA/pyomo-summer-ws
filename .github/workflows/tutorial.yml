@@ -48,7 +48,14 @@ jobs:
       run: |
         uv run --group docs jupyter book build --html --ci
       env:
-        BASE_URL: /pyomo-summer-ws/
+        BASE_URL: /pyomo-summer-ws
+
+    - name: Check generated URLs
+      run: |
+        if grep -R --line-number --fixed-strings "/pyomo-summer-ws//" _build/html; then
+          echo "Generated site contains doubled project base URLs" >&2
+          exit 1
+        fi
 
     - name: Upload artifact
       if: github.event_name == 'push'
