@@ -1,9 +1,0 @@
-# Table of contents
-
-format: jb-book
-root: intro.md
-chapters:
-- file: notebooks/python/python-exercises.ipynb
-  title: Python Basics
-- file: notebooks/PyomoFundamentals/Fundamentals.ipynb
-- file: notebooks/PyomoNonlinear/PyomoNonlinear.ipynb

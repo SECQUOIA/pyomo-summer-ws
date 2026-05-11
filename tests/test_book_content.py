@@ -1,4 +1,5 @@
 import json
+import tomllib
 import unittest
 from pathlib import Path
 
@@ -35,7 +36,7 @@ def notebook_markdown_headings(path):
 
 class BookContentTests(unittest.TestCase):
     def test_python_chapter_is_python_basics(self):
-        toc = (ROOT / "_toc.yml").read_text()
+        toc = (ROOT / "myst.yml").read_text()
         notebook = notebook_source("notebooks/python/python-exercises.ipynb")
 
         self.assertIn("title: Python Basics", toc)
@@ -43,7 +44,7 @@ class BookContentTests(unittest.TestCase):
         self.assertNotIn("# Python Fundamentals", notebook)
 
     def test_placeholder_index_is_not_in_book(self):
-        toc = (ROOT / "_toc.yml").read_text()
+        toc = (ROOT / "myst.yml").read_text()
 
         self.assertNotIn("genindex.md", toc)
         self.assertFalse((ROOT / "genindex.md").exists())
@@ -79,8 +80,49 @@ class BookContentTests(unittest.TestCase):
         workflow = (ROOT / ".github/workflows/tutorial.yml").read_text()
 
         self.assertIn("pull_request:", workflow)
-        self.assertIn("jupyter-book build .", workflow)
+        self.assertIn("astral-sh/setup-uv@v6", workflow)
+        self.assertIn("actions/setup-node@v4", workflow)
+        self.assertIn('node-version: "20"', workflow)
+        self.assertIn("uv sync --locked --group docs", workflow)
+        self.assertIn("uv run --group docs python -m unittest discover -s tests", workflow)
+        self.assertIn("uv run --group docs jupyter book build --html --ci", workflow)
+        self.assertNotIn("jupyter-book build .", workflow)
+        self.assertNotIn("pip install -r requirements.txt", workflow)
         self.assertIn("if: github.event_name == 'push'", workflow)
+
+    def test_docs_dependency_group_pins_jupyter_book_v2(self):
+        pyproject = tomllib.loads((ROOT / "pyproject.toml").read_text())
+
+        docs_dependencies = pyproject["dependency-groups"]["docs"]
+        self.assertIn("jupyter-book==2.1.0", docs_dependencies)
+        self.assertEqual(["docs"], pyproject["tool"]["uv"]["default-groups"])
+        self.assertFalse(pyproject["tool"]["uv"]["package"])
+
+    def test_local_build_docs_match_ci_command(self):
+        readme = (ROOT / "README.md").read_text()
+
+        self.assertIn("uv sync --locked --group docs", readme)
+        self.assertIn("uv run --group docs python -m unittest discover -s tests", readme)
+        self.assertIn("uv run --group docs jupyter book build --html --ci", readme)
+
+    def test_build_artifacts_and_local_environments_are_ignored(self):
+        gitignore = (ROOT / ".gitignore").read_text().splitlines()
+        config = (ROOT / "_config.yml").read_text()
+
+        self.assertIn("_build/", gitignore)
+        self.assertIn('"_build"', config)
+        self.assertIn('".venv"', config)
+
+    def test_v2_book_config_preserves_repository_and_colab_links(self):
+        myst = (ROOT / "myst.yml").read_text()
+        config = (ROOT / "_config.yml").read_text()
+        colab = (ROOT / "colab.html").read_text()
+
+        self.assertIn("github: SECQUOIA/pyomo-summer-ws", myst)
+        self.assertIn("https://github.com/SECQUOIA/pyomo-summer-ws/issues/new", myst)
+        self.assertIn("url: https://github.com/SECQUOIA/pyomo-summer-ws", config)
+        self.assertIn("https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws", colab)
+        self.assertIn("https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/blob/main/", colab)
 
     def test_python_pandas_import_precedes_pd_usage(self):
         notebook = json.loads((ROOT / "notebooks/python/python-exercises.ipynb").read_text())

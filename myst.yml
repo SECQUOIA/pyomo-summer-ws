@@ -1,0 +1,22 @@
+version: 1
+project:
+  title: Pyomo Tutorial
+  authors:
+    - name: SECQUOIA Research Group
+  github: SECQUOIA/pyomo-summer-ws
+  toc:
+    - file: intro.md
+    - file: notebooks/python/python-exercises.ipynb
+      title: Python Basics
+    - file: notebooks/PyomoFundamentals/Fundamentals.ipynb
+    - file: notebooks/PyomoNonlinear/PyomoNonlinear.ipynb
+site:
+  template: book-theme
+  options:
+    folders: true
+  actions:
+    - title: Open an Issue
+      url: https://github.com/SECQUOIA/pyomo-summer-ws/issues/new
+    - title: Open in Colab
+      url: colab.html
+      static: true

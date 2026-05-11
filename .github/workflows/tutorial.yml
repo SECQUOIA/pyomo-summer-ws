@@ -22,23 +22,33 @@ jobs:
       with:
         python-version: 3.11
 
-    - name: Install dependencies
+    - name: Set up uv
+      uses: astral-sh/setup-uv@v6
+
+    - name: Set up Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: "20"
+
+    - name: Install docs dependencies
       run: |
-        pip install -r requirements.txt
+        uv sync --locked --group docs
 
     - name: Run content tests
       run: |
-        python -m unittest discover -s tests
+        uv run --group docs python -m unittest discover -s tests
 
     - name: cache executed notebooks
       uses: actions/cache@v5
       with:
         path: _build/.jupyter_cache
-        key: jupyter-book-cache-${{ hashFiles('requirements.txt') }}
+        key: jupyter-book-cache-${{ hashFiles('uv.lock') }}
 
     - name: Build the book
       run: |
-        jupyter-book build .
+        uv run --group docs jupyter book build --html --ci
+      env:
+        BASE_URL: /pyomo-summer-ws/
 
     - name: Upload artifact
       if: github.event_name == 'push'
