@@ -3,6 +3,7 @@ project:
   title: Pyomo Tutorial
   authors:
     - name: SECQUOIA Research Group
+      url: https://engineering.purdue.edu/SECQUOIA
   copyright: "2026"
   github: SECQUOIA/pyomo-summer-ws
   toc:

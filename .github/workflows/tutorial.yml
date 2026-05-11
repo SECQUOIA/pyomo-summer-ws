@@ -9,11 +9,10 @@ on:
     - main
 
 jobs:
-  deploy-book:
+  build-book:
     runs-on: ubuntu-latest
     permissions:
-      pages: write
-      id-token: write
+      contents: read
     steps:
     - uses: actions/checkout@v6
 
@@ -50,6 +49,10 @@ jobs:
       env:
         BASE_URL: /pyomo-summer-ws
 
+    - name: Write legacy redirects
+      run: |
+        uv run --group docs python tools/write_legacy_redirects.py
+
     - name: Check generated URLs
       run: |
         if grep -R --line-number --fixed-strings "/pyomo-summer-ws//" _build/html; then
@@ -63,7 +66,14 @@ jobs:
       with:
         path: "_build/html"
 
+  deploy-book:
+    if: github.event_name == 'push'
+    needs: build-book
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    steps:
     - name: Deploy to GitHub Pages
-      if: github.event_name == 'push'
       id: deployment
       uses: actions/deploy-pages@v5

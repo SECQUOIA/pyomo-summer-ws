@@ -1,4 +1,6 @@
+import importlib.util
 import json
+import tempfile
 import tomllib
 import unittest
 from pathlib import Path
@@ -32,6 +34,14 @@ def notebook_markdown_headings(path):
             if line.startswith("#"):
                 headings.append(line.strip())
     return headings
+
+
+def load_legacy_redirects_module():
+    module_path = ROOT / "tools/write_legacy_redirects.py"
+    spec = importlib.util.spec_from_file_location("write_legacy_redirects", module_path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 class BookContentTests(unittest.TestCase):
@@ -75,10 +85,19 @@ class BookContentTests(unittest.TestCase):
                 )
 
     def test_contact_and_branding_are_current(self):
+        intro = (ROOT / "intro.md").read_text()
         config = (ROOT / "_config.yml").read_text()
+        myst = (ROOT / "myst.yml").read_text()
         rendered_text = "\n".join(notebook_source(path) for path in PUBLISHED_NOTEBOOKS)
+        secquoia_link = "[SECQUOIA Research Group](https://engineering.purdue.edu/SECQUOIA)"
 
         self.assertIn("author: SECQUOIA Research Group", config)
+        self.assertIn("url: https://engineering.purdue.edu/SECQUOIA", myst)
+        self.assertIn(secquoia_link, intro)
+        self.assertIn(secquoia_link, rendered_text)
+        self.assertIn("Individual contributors include David Bernal", intro)
+        self.assertNotIn("Contributors include", rendered_text)
+        self.assertNotIn("David Bernal", rendered_text)
         self.assertNotIn("dbernaln@purdue.edu", rendered_text)
         self.assertNotIn("mailto:", rendered_text)
 
@@ -100,12 +119,19 @@ class BookContentTests(unittest.TestCase):
         workflow = (ROOT / ".github/workflows/tutorial.yml").read_text()
 
         self.assertIn("pull_request:", workflow)
+        self.assertIn("build-book:", workflow)
+        self.assertIn("contents: read", workflow)
+        self.assertIn("deploy-book:", workflow)
+        self.assertIn("needs: build-book", workflow)
+        self.assertIn("pages: write", workflow)
+        self.assertIn("id-token: write", workflow)
         self.assertIn("astral-sh/setup-uv@v6", workflow)
         self.assertIn("actions/setup-node@v4", workflow)
         self.assertIn('node-version: "20"', workflow)
         self.assertIn("uv sync --locked --group docs", workflow)
         self.assertIn("uv run --group docs python -m unittest discover -s tests", workflow)
         self.assertIn("uv run --group docs jupyter book build --html --ci", workflow)
+        self.assertIn("uv run --group docs python tools/write_legacy_redirects.py", workflow)
         self.assertIn("BASE_URL: /pyomo-summer-ws", workflow)
         self.assertNotIn("BASE_URL: /pyomo-summer-ws/", workflow)
         self.assertIn('"/pyomo-summer-ws//" _build/html', workflow)
@@ -127,6 +153,41 @@ class BookContentTests(unittest.TestCase):
         self.assertIn("uv sync --locked --group docs", readme)
         self.assertIn("uv run --group docs python -m unittest discover -s tests", readme)
         self.assertIn("uv run --group docs jupyter book build --html --ci", readme)
+        self.assertIn("uv run --group docs python tools/write_legacy_redirects.py", readme)
+
+    def test_legacy_redirect_pages_are_generated(self):
+        redirects = load_legacy_redirects_module()
+        expected_redirects = {
+            "intro.html": "./",
+            "notebooks/python/python-exercises.html": "python-exercises/",
+            "notebooks/PyomoFundamentals/Fundamentals.html": "../pyomofundamentals/fundamentals/",
+            "notebooks/PyomoNonlinear/PyomoNonlinear.html": "../pyomononlinear/pyomononlinear/",
+        }
+
+        self.assertEqual(expected_redirects, redirects.LEGACY_REDIRECTS)
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            build_dir = Path(tmpdir)
+            redirects.write_redirects(build_dir)
+
+            for legacy_path, target in expected_redirects.items():
+                with self.subTest(legacy_path=legacy_path):
+                    html = (build_dir / legacy_path).read_text()
+                    self.assertIn(f'content="0; url={target}"', html)
+                    self.assertIn(f'href="{target}"', html)
+                    self.assertIn(f'window.location.replace("{target}")', html)
+
+    def test_reviewed_content_polish_is_applied(self):
+        python_basics = notebook_source("notebooks/python/python-exercises.ipynb")
+        fundamentals = notebook_source("notebooks/PyomoFundamentals/Fundamentals.ipynb")
+        nonlinear = notebook_source("notebooks/PyomoNonlinear/PyomoNonlinear.ipynb")
+
+        self.assertNotIn("returneed", python_basics)
+        self.assertNotIn("Using the list comprehensions", python_basics)
+        self.assertIn(r"x_i - \sum_{j=0}^N j q_{i,j} = 0", fundamentals)
+        self.assertNotIn("Woodrff", fundamentals)
+        self.assertNotIn("Hagen et al. (2001)", fundamentals)
+        self.assertNotIn("You should get list of errors", nonlinear)
 
     def test_build_artifacts_and_local_environments_are_ignored(self):
         gitignore = (ROOT / ".gitignore").read_text().splitlines()
