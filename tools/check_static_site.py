@@ -12,9 +12,14 @@ BUILD_DIR = Path("_build/html")
 REQUIRED_ROUTES = (
     "index.html",
     "setup/index.html",
+    "third-party-notices/index.html",
     "notebooks/python-basics/python-exercises/index.html",
     "notebooks/pyomo-fundamentals/fundamentals/index.html",
     "notebooks/pyomo-nonlinear/pyomononlinear/index.html",
+    "notebooks/structured-modeling/blocksandtransformations/index.html",
+    "notebooks/dynamic-systems/dynamicsystems/index.html",
+    "notebooks/gdp/gdp/index.html",
+    "notebooks/contrib-debugging/contribanddebugging/index.html",
 )
 
 NOTEBOOK_COLAB_LINKS = {
@@ -29,6 +34,22 @@ NOTEBOOK_COLAB_LINKS = {
     "notebooks/pyomo-nonlinear/pyomononlinear/index.html": (
         "https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/"
         "blob/main/notebooks/03-pyomo-nonlinear/PyomoNonlinear.ipynb"
+    ),
+    "notebooks/structured-modeling/blocksandtransformations/index.html": (
+        "https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/"
+        "blob/main/notebooks/04-structured-modeling/BlocksAndTransformations.ipynb"
+    ),
+    "notebooks/dynamic-systems/dynamicsystems/index.html": (
+        "https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/"
+        "blob/main/notebooks/05-dynamic-systems/DynamicSystems.ipynb"
+    ),
+    "notebooks/gdp/gdp/index.html": (
+        "https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/"
+        "blob/main/notebooks/06-gdp/GDP.ipynb"
+    ),
+    "notebooks/contrib-debugging/contribanddebugging/index.html": (
+        "https://colab.research.google.com/github/SECQUOIA/pyomo-summer-ws/"
+        "blob/main/notebooks/07-contrib-debugging/ContribAndDebugging.ipynb"
     ),
 }
 EXPECTED_LOGO_TEXT = "Pyomo Tutorial"

@@ -13,11 +13,16 @@ SOURCE_PATHS = (
     "README.md",
     "intro.md",
     "setup.md",
+    "THIRD_PARTY_NOTICES.md",
     "myst.yml",
     "requirements.txt",
     "notebooks/01-python-basics/python-exercises.ipynb",
     "notebooks/02-pyomo-fundamentals/Fundamentals.ipynb",
     "notebooks/03-pyomo-nonlinear/PyomoNonlinear.ipynb",
+    "notebooks/04-structured-modeling/BlocksAndTransformations.ipynb",
+    "notebooks/05-dynamic-systems/DynamicSystems.ipynb",
+    "notebooks/06-gdp/GDP.ipynb",
+    "notebooks/07-contrib-debugging/ContribAndDebugging.ipynb",
 )
 URL_RE = re.compile(r"https?://[^\s)>\"]+")
 

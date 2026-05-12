@@ -2,7 +2,7 @@
 
 This repository contains the source notebooks for the [Pyomo Tutorial](https://github.com/SECQUOIA/pyomo-summer-ws). The deployed site is available at <https://secquoia.github.io/pyomo-summer-ws/>.
 
-The [SECQUOIA Research Group](https://engineering.purdue.edu/SECQUOIA) maintains the tutorial. The notebooks adapt material from the Pyomo Summer Workshop 2018 and update it for current Python and Pyomo workflows.
+The [SECQUOIA Research Group](https://engineering.purdue.edu/SECQUOIA) maintains the tutorial. The notebooks adapt material from the Pyomo Summer Workshop 2018 and the current [Pyomo tutorials repository](https://github.com/Pyomo/pyomo-tutorials), updating it for current Python and Pyomo workflows.
 
 ## Local build
 
@@ -22,7 +22,9 @@ To preview the built site locally:
 uv run --group docs python -m http.server --directory _build/html 8000
 ```
 
-The notebooks rely on Pyomo. Some examples require GLPK or IPOPT when run interactively; the documentation build renders notebooks without executing them. See `setup.md` for Colab links and solver setup notes.
+The notebooks rely on Pyomo. Some examples require GLPK or IPOPT when run interactively; the Dynamic Systems simulation exercise also uses SciPy when available. The documentation build renders notebooks without executing them. See `setup.md` for Colab links and solver setup notes.
+
+Adapted third-party tutorial material is covered in `THIRD_PARTY_NOTICES.md`.
 
 CI installs Node for the MyST/Jupyter Book HTML build. Local contributors usually only need `uv` unless they are debugging the underlying JavaScript theme tooling. `requirements.txt` is kept as a compatibility pointer to `pyproject.toml` and `uv.lock`.
 
