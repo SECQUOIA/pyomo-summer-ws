@@ -406,6 +406,7 @@ class BookContentTests(unittest.TestCase):
 
         self.assertIn("edit_url: null", myst)
         self.assertIn("bibliography: references.bib", myst)
+        self.assertIn("favicon: media/Pyomo-logo.png", myst)
         self.assertIn("logo_text: Pyomo Tutorial", myst)
         self.assertIn("https://github.com/SECQUOIA/pyomo-summer-ws/issues/new/choose", myst)
         self.assertIn("url: https://github.com/SECQUOIA/pyomo-summer-ws", config)

@@ -28,6 +28,7 @@ site:
   template: book-theme
   options:
     folders: true
+    favicon: media/Pyomo-logo.png
     logo_text: Pyomo Tutorial
   actions:
     - title: Open an Issue
