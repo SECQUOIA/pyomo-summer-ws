@@ -152,7 +152,7 @@ class BookContentTests(unittest.TestCase):
         self.assertIn("id-token: write", workflow)
         self.assertIn("astral-sh/setup-uv@v6", workflow)
         self.assertIn("actions/setup-node@v4", workflow)
-        self.assertIn('node-version: "20"', workflow)
+        self.assertIn('node-version: "24"', workflow)
         self.assertIn("uv sync --locked --group docs", workflow)
         self.assertIn("uv run --group docs python -m unittest discover -s tests", workflow)
         self.assertIn("uv run --group docs jupyter book build --html --ci", workflow)
