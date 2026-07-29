@@ -172,9 +172,28 @@ class BookContentTests(unittest.TestCase):
 
         docs_dependencies = pyproject["dependency-groups"]["docs"]
         self.assertIn("jupyter-book==2.1.0", docs_dependencies)
+        self.assertIn("jupyterlab>=4.6.2,<5", docs_dependencies)
         self.assertIn("pint>=0.24,<1", docs_dependencies)
         self.assertEqual(["docs"], pyproject["tool"]["uv"]["default-groups"])
+        self.assertEqual(
+            [
+                "mistune>=3.3.0",
+                "setuptools>=83.0.0",
+                "soupsieve>=2.8.4",
+            ],
+            pyproject["tool"]["uv"]["constraint-dependencies"],
+        )
         self.assertFalse(pyproject["tool"]["uv"]["package"])
+
+    def test_dependabot_keeps_uv_dependencies_current(self):
+        dependabot = (ROOT / ".github/dependabot.yml").read_text()
+
+        self.assertIn('package-ecosystem: "uv"', dependabot)
+        self.assertIn('interval: "weekly"', dependabot)
+        self.assertIn('applies-to: "version-updates"', dependabot)
+        self.assertIn('applies-to: "security-updates"', dependabot)
+        self.assertIn('"minor"', dependabot)
+        self.assertIn('"patch"', dependabot)
 
     def test_local_build_docs_match_ci_command(self):
         readme = (ROOT / "README.md").read_text()
