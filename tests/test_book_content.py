@@ -1,5 +1,6 @@
 import importlib.util
 import json
+import re
 import tempfile
 import tomllib
 import unittest
@@ -16,6 +17,24 @@ PUBLISHED_NOTEBOOKS = (
     "notebooks/06-gdp/GDP.ipynb",
     "notebooks/07-contrib-debugging/ContribAndDebugging.ipynb",
 )
+
+
+def requirement_specifiers(requirements):
+    specifiers = {}
+    for requirement in requirements:
+        match = re.fullmatch(r"([A-Za-z0-9][A-Za-z0-9._-]*)(.+)", requirement)
+        if match is None:
+            raise ValueError(f"Unsupported requirement: {requirement}")
+        name, specifier = match.groups()
+        if name in specifiers:
+            raise ValueError(f"Duplicate requirement: {name}")
+        specifiers[name] = specifier
+    return specifiers
+
+
+def numeric_version(version):
+    parts = tuple(int(part) for part in version.split("."))
+    return parts + (0,) * max(0, 3 - len(parts))
 
 
 def notebook_source(path):
@@ -167,22 +186,47 @@ class BookContentTests(unittest.TestCase):
         self.assertNotIn("pip install -r requirements.txt", workflow)
         self.assertIn("if: github.event_name == 'push'", workflow)
 
-    def test_docs_dependency_group_pins_jupyter_book_v2(self):
+    def test_docs_dependency_group_preserves_compatibility_policy(self):
         pyproject = tomllib.loads((ROOT / "pyproject.toml").read_text())
 
-        docs_dependencies = pyproject["dependency-groups"]["docs"]
-        self.assertIn("jupyter-book==2.1.0", docs_dependencies)
-        self.assertIn("jupyterlab>=4.6.2,<5", docs_dependencies)
-        self.assertIn("pint>=0.24,<1", docs_dependencies)
+        docs = requirement_specifiers(pyproject["dependency-groups"]["docs"])
+        jupyter_book = re.fullmatch(r"==(\d+(?:\.\d+)*)", docs["jupyter-book"])
+        self.assertIsNotNone(jupyter_book)
+        jupyter_book_version = numeric_version(jupyter_book.group(1))
+        self.assertEqual(2, jupyter_book_version[0])
+        self.assertGreaterEqual(jupyter_book_version, numeric_version("2.1.0"))
+
+        for name, minimum, upper_bound in (
+            ("jupyterlab", "4.6.2", "5"),
+            ("pint", "0.24", "1"),
+        ):
+            with self.subTest(dependency=name):
+                floor, separator, cap = docs[name].partition(",<")
+                self.assertEqual(",<", separator)
+                self.assertEqual(upper_bound, cap)
+                self.assertTrue(floor.startswith(">="))
+                self.assertGreaterEqual(
+                    numeric_version(floor.removeprefix(">=")),
+                    numeric_version(minimum),
+                )
+
         self.assertEqual(["docs"], pyproject["tool"]["uv"]["default-groups"])
-        self.assertEqual(
-            [
-                "mistune>=3.3.0",
-                "setuptools>=83.0.0",
-                "soupsieve>=2.8.4",
-            ],
-            pyproject["tool"]["uv"]["constraint-dependencies"],
+        constraints = requirement_specifiers(
+            pyproject["tool"]["uv"]["constraint-dependencies"]
         )
+        for name, minimum in (
+            ("mistune", "3.3.0"),
+            ("setuptools", "83.0.0"),
+            ("soupsieve", "2.8.4"),
+        ):
+            with self.subTest(constraint=name):
+                self.assertIn(name, constraints)
+                self.assertTrue(constraints[name].startswith(">="))
+                self.assertGreaterEqual(
+                    numeric_version(constraints[name].removeprefix(">=")),
+                    numeric_version(minimum),
+                )
+
         self.assertFalse(pyproject["tool"]["uv"]["package"])
 
     def test_dependabot_keeps_uv_dependencies_current(self):
