@@ -7,10 +7,10 @@ dependencies = []
 
 [dependency-groups]
 docs = [
-    "ccxt>=4.5.70,<5",
+    "ccxt>=4.5.73,<5",
     "graphviz>=0.20,<1",
     "jupyter-book==2.1.6",
-    "jupyterlab>=4.6.2,<5",
+    "jupyterlab>=4.6.3,<5",
     "openpyxl>=3.1,<4",
     "pandas>=2.0,<3",
     "pint>=0.24,<1",
