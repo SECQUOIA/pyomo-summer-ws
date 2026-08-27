@@ -275,7 +275,7 @@ css = [
 
 [[package]]
 name = "ccxt"
-version = "4.5.71"
+version = "4.5.73"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiohappyeyeballs" },
@@ -302,9 +302,9 @@ dependencies = [
     { name = "yarl" },
     { name = "zlib-ng" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c2/99/7ff0cd5ec0ec97a558b7396f0885e976ec3b5094315bdbc05540c6306c22/ccxt-4.5.71.tar.gz", hash = "sha256:171f9dd4c9c915b5e8dadf2730ebd9c675b590c7f03b0e420841f03a5a2195f8", size = 5956203, upload-time = "2026-08-04T10:38:15.911Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d2/80/497cb51c72fd68c628e30fa8cd0a4b198d5f2dad5d84f795dd3c73250b83/ccxt-4.5.73.tar.gz", hash = "sha256:0698f915201f5c18f0c0b24cc5d062e06fab4d5f68109bd9899ea8f049c5cb61", size = 6059819, upload-time = "2026-08-11T11:39:24.984Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/9e/9b/c47bb2d78314ac3480d3505e872cb8cf157a5c888d0338d9b3f4ea9daa54/ccxt-4.5.71-py3-none-any.whl", hash = "sha256:936d01e84c47f4a6ce711962881cef5b094a1d39d4574fd08e186bd10160cf8c", size = 6395681, upload-time = "2026-08-04T10:38:13.372Z" },
+    { url = "https://files.pythonhosted.org/packages/fd/87/59a3c56008353e245493b14a7069fc227dce8d6c9aa660ac852ae3f1c00e/ccxt-4.5.73-py3-none-any.whl", hash = "sha256:a644b81adca7fdb49ee5a765002ea4371df3ba599877775d4dae369e00101b6f", size = 6507460, upload-time = "2026-08-11T11:39:20.871Z" },
 ]
 
 [[package]]
@@ -1062,7 +1062,7 @@ wheels = [
 
 [[package]]
 name = "jupyterlab"
-version = "4.6.2"
+version = "4.6.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "async-lru" },
@@ -1081,9 +1081,9 @@ dependencies = [
     { name = "traitlets" },
     { name = "typing-extensions", marker = "python_full_version < '3.12'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/7a/7f/51c0c856ab286bdaf5709cf61ed13584ed9d4bee906479707da45b11b353/jupyterlab-4.6.2.tar.gz", hash = "sha256:e18ce8b34f3de350e93cd5b2c4f3ae884cbe266eb76bf5d6825a4ed34c13bcff", size = 28183650, upload-time = "2026-07-21T12:05:24.051Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/00/c0/45934229995d4c6e38192ca118d93185f60808f64157e3df3c5c28f8c5fd/jupyterlab-4.6.3.tar.gz", hash = "sha256:2e3db6e3a12495ebd188276e985bf5ac502fbde3d1e8628819920210008de498", size = 28319771, upload-time = "2026-08-10T18:50:57.947Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/63/1f/e39b248c76bb3736bc05a9491a6aa1315414c32dea12f548ecc1b24c758e/jupyterlab-4.6.2-py3-none-any.whl", hash = "sha256:5964447036629adfcd3fc0969effc1da6f47d2cbd0a60b2c2eea7c31be0ec6a8", size = 17166703, upload-time = "2026-07-21T12:05:19.818Z" },
+    { url = "https://files.pythonhosted.org/packages/e9/47/242f46de028074651c9bd6d8000fc340ed0d3cdd1a0eae4387826123413a/jupyterlab-4.6.3-py3-none-any.whl", hash = "sha256:0a1ebc6567186f1eabd99536e94df7ed9e96d1e7c5ddf3e4406ae16e88abacb7", size = 17168312, upload-time = "2026-08-10T18:50:53.044Z" },
 ]
 
 [[package]]
@@ -1795,10 +1795,10 @@ docs = [
 
 [package.metadata.requires-dev]
 docs = [
-    { name = "ccxt", specifier = ">=4.5.70,<5" },
+    { name = "ccxt", specifier = ">=4.5.73,<5" },
     { name = "graphviz", specifier = ">=0.20,<1" },
     { name = "jupyter-book", specifier = "==2.1.6" },
-    { name = "jupyterlab", specifier = ">=4.6.2,<5" },
+    { name = "jupyterlab", specifier = ">=4.6.3,<5" },
     { name = "openpyxl", specifier = ">=3.1,<4" },
     { name = "pandas", specifier = ">=2.0,<3" },
     { name = "pint", specifier = ">=0.24,<1" },
