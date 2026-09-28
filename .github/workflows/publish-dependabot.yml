@@ -1,0 +1,67 @@
+name: Publish automatic dependency merges
+
+on:
+  workflow_run:
+    workflows: [deploy-book]
+    types: [completed]
+
+permissions: {}
+
+jobs:
+  publish:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      startsWith(github.event.workflow_run.head_branch, 'dependabot/')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    permissions:
+      contents: read
+      pull-requests: read
+      actions: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_REPO: ${{ github.repository }}
+      TESTED_HEAD: ${{ github.event.workflow_run.head_sha }}
+    steps:
+    # Use trusted default-branch code only; never check out the completed PR.
+    - name: Publish main after GitHub finishes auto-merging
+      run: |
+        candidates=$(gh api "repos/$GH_REPO/commits/$TESTED_HEAD/pulls")
+        pr=$(jq -r --arg head "$TESTED_HEAD" --arg repo "$GH_REPO" \
+          '.[] | select(.user.login == "dependabot[bot]" and .head.sha == $head and
+            .head.repo.full_name == $repo and .base.ref == "main") | .number' <<< "$candidates")
+        if [[ ! "$pr" =~ ^[0-9]+$ ]]; then
+          echo "No unique Dependabot PR for this run."
+          exit 0
+        fi
+        # GitHub completes native auto-merge asynchronously after CI succeeds.
+        for attempt in {1..30}; do
+          snapshot=$(gh api "repos/$GH_REPO/pulls/$pr")
+          head=$(jq -r '.head.sha' <<< "$snapshot")
+          if [ "$head" != "$TESTED_HEAD" ]; then
+            echo "The PR has a newer head; its own CI will handle publication."
+            exit 0
+          fi
+          if [ "$(jq -r '.merged' <<< "$snapshot")" = true ]; then
+            if [ "$(jq -r '.merged_by.login' <<< "$snapshot")" != 'github-actions[bot]' ]; then
+              echo "A maintainer merged this PR; the push workflow handles publication."
+              exit 0
+            fi
+            # GITHUB_TOKEN merges do not emit a push workflow, but an explicit
+            # workflow_dispatch does. Build and deploy only the default branch.
+            gh workflow run tutorial.yml --repo "$GH_REPO" --ref main
+            exit 0
+          fi
+          if [ "$(jq -r '.state' <<< "$snapshot")" = closed ]; then
+            exit 0
+          fi
+          if [ "$attempt" -ge 3 ] && [ "$(jq -r '.auto_merge' <<< "$snapshot")" = null ]; then
+            echo "Auto-merge is not enabled; manual merges use the push workflow."
+            exit 0
+          fi
+          sleep 10
+        done
+        echo "Auto-merge did not finish in five minutes; rerun this workflow after it merges." >&2
+        exit 1
