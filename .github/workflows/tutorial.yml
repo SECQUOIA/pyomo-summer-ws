@@ -1,6 +1,7 @@
 name: deploy-book
 
 on:
+  workflow_dispatch:
   push:
     branches:
     - main
@@ -10,6 +11,7 @@ on:
 
 jobs:
   build-book:
+    if: github.event_name != 'workflow_dispatch' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
@@ -83,13 +85,13 @@ jobs:
         uv run --group docs python tools/check_static_site.py
 
     - name: Upload artifact
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')
       uses: actions/upload-pages-artifact@v5
       with:
         path: "_build/html"
 
   deploy-book:
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')
     needs: build-book
     runs-on: ubuntu-latest
     permissions:
