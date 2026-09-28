@@ -36,4 +36,14 @@ Legacy `.html` redirects are written after the build by `tools/write_legacy_redi
 
 ## Deployment
 
-GitHub Actions runs the content tests, builds the MyST/Jupyter Book site, writes legacy redirects, checks generated URLs, runs static-site checks, and deploys `_build/html` to GitHub Pages on pushes to `main`. Pull requests run the same build and validation steps without deploying. A scheduled link check validates external links from the source content.
+GitHub Actions installs GLPK and IPOPT, runs the content and solver smoke tests, builds the MyST/Jupyter Book site, writes legacy redirects, checks generated URLs, runs static-site checks, and deploys `_build/html` to GitHub Pages on pushes to `main`. Pull requests run the same build and validation steps without deploying. CI sets `REQUIRE_SOLVERS=1` so a missing solver fails the build instead of skipping tests. Local runs may skip solver tests when the executables are unavailable; use `REQUIRE_SOLVERS=1 uv run --group docs python -m unittest discover -s tests -v` to require them locally as well. The documentation build renders saved notebook outputs; the smoke tests execute selected exercises, not every notebook.
+
+The separate `external-links` workflow checks third-party URLs weekly and can also be run manually from Actions. It is separate from the PR build because remote-site outages do not indicate a dependency regression.
+
+## Dependency updates
+
+Dependabot groups Python patch/minor updates and GitHub Actions updates weekly. Security updates have their own group. The `Dependabot auto-merge` workflow enables native GitHub auto-merge for verified Dependabot patch/minor updates (including security updates) and all GitHub Actions updates. Major Python upgrades remain for manual review.
+
+Keep **Allow auto-merge** enabled and protect `main` with the required **build-book** status check from GitHub Actions, requiring branches to be up to date before merging. This gate covers dependency installation, content and solver tests, and site validation. The automation refuses to enable auto-merge if that required check is missing. Its privileged workflow reads Dependabot metadata without checking out or executing PR code.
+
+When a dependency PR fails CI, it stays open. Inspect the failed job in the PR's Checks tab, fix the dependency incompatibility, or rerun a transient infrastructure failure. A successful rerun can then satisfy auto-merge; major upgrades still require a manual merge. To keep an eligible PR for manual handling, disable auto-merge on that PR (a later Dependabot push will reevaluate eligibility).

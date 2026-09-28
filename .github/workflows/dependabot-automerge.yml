@@ -1,0 +1,50 @@
+name: Dependabot auto-merge
+
+on:
+  pull_request_target:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions: {}
+
+jobs:
+  enable-automerge:
+    if: >-
+      github.repository == 'SECQUOIA/pyomo-summer-ws' &&
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      !github.event.pull_request.draft
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+    # This privileged workflow reads metadata only; never check out or run PR code.
+    - name: Read verified Dependabot metadata
+      id: metadata
+      uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Enable auto-merge for eligible updates
+      if: >-
+        steps.metadata.outputs.package-ecosystem == 'github_actions' ||
+        (steps.metadata.outputs.package-ecosystem == 'uv' &&
+         (steps.metadata.outputs.update-type == 'version-update:semver-minor' ||
+          steps.metadata.outputs.update-type == 'version-update:semver-patch'))
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_REPO: ${{ github.repository }}
+        PR_URL: ${{ github.event.pull_request.html_url }}
+        PR_HEAD: ${{ github.event.pull_request.head.sha }}
+      run: |
+        # --auto can merge immediately without required checks. Fail closed if
+        # the build gate is ever removed from main's branch protection.
+        protected=$(gh api "repos/$GH_REPO/branches/main" --jq \
+          '.protected and (.protection.required_status_checks.contexts | index("build-book") != null)')
+        if [ "$protected" != true ]; then
+          echo "main must require build-book before enabling auto-merge" >&2
+          exit 1
+        fi
+        gh pr merge "$PR_URL" --auto --merge --match-head-commit "$PR_HEAD"
