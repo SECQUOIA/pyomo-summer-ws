@@ -169,8 +169,20 @@ class BookContentTests(unittest.TestCase):
         self.assertIn("needs: build-book", workflow)
         self.assertIn("pages: write", workflow)
         self.assertIn("id-token: write", workflow)
-        self.assertIn("astral-sh/setup-uv@v8.2.0", workflow)
-        self.assertIn("actions/setup-node@v6", workflow)
+        for action, minimum in (
+            ("astral-sh/setup-uv", "8.2.0"),
+            ("actions/setup-node", "6"),
+        ):
+            with self.subTest(action=action):
+                version = re.search(
+                    rf"uses: {re.escape(action)}@v(\d+(?:\.\d+)*)\s*$",
+                    workflow,
+                    re.MULTILINE,
+                )
+                self.assertIsNotNone(version)
+                self.assertGreaterEqual(
+                    numeric_version(version.group(1)), numeric_version(minimum)
+                )
         self.assertIn('node-version: "24"', workflow)
         self.assertIn("uv sync --locked --group docs", workflow)
         self.assertIn("uv run --group docs python -m unittest discover -s tests", workflow)
