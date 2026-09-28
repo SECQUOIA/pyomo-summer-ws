@@ -275,7 +275,7 @@ css = [
 
 [[package]]
 name = "ccxt"
-version = "4.5.78"
+version = "4.5.83"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiohappyeyeballs" },
@@ -302,9 +302,9 @@ dependencies = [
     { name = "yarl" },
     { name = "zlib-ng" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/67/d0/9294f1f6c69e0fe26b4675a69ba1041866592515b97460b6cdc1e83121ee/ccxt-4.5.78.tar.gz", hash = "sha256:90ce2837b574dbfe2b8574eda9c3bf97cda1b65d90415b5f16f2d22ceba9b89a", size = 6003937, upload-time = "2026-09-07T17:00:35.275Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/fc/8b/6a4e75cf9062196947e1fad2b664144dc45d633656d07a6380abb78835ca/ccxt-4.5.83.tar.gz", hash = "sha256:91c77df954afe9212749d499ec793959b64303876df18e3783ff3026667bfcb0", size = 6282955, upload-time = "2026-09-23T11:06:58.409Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/64/61/c1d4d109d886fed1e4c645aa060da2aaeb4808d2749ed12738c1d732cc65/ccxt-4.5.78-py3-none-any.whl", hash = "sha256:c4b4f0647b23564661b44b747a353428211a665512d39e6418860e8153f043ee", size = 6383074, upload-time = "2026-09-07T17:00:31.682Z" },
+    { url = "https://files.pythonhosted.org/packages/31/ad/1d5a9d92c2c46302f97c78d1036d0bc00cbcaae6379cacb2a649e733ec36/ccxt-4.5.83-py3-none-any.whl", hash = "sha256:cbac581e8d52e5fc01cd5d5d2e165e71765bb5a5205396c60b928882f572d743", size = 6667410, upload-time = "2026-09-23T11:06:55.872Z" },
 ]
 
 [[package]]
@@ -929,7 +929,7 @@ wheels = [
 
 [[package]]
 name = "jupyter-book"
-version = "2.1.6"
+version = "2.1.7"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ipykernel" },
@@ -938,9 +938,9 @@ dependencies = [
     { name = "nodeenv" },
     { name = "platformdirs" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ef/39/df74148121170368574b18b325cff961d871fb1bba536f774829d354a7e3/jupyter_book-2.1.6.tar.gz", hash = "sha256:fb52cf7f7056a8475aebefa78376801e45cc3daa010a48ac3ea089a5f10dd17c", size = 3222318, upload-time = "2026-07-05T16:14:58.105Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/5f/bf/c9a13513a26a235a11199bec9594989cc9c43c674ead557e953941447465/jupyter_book-2.1.7.tar.gz", hash = "sha256:e58de6026bb362c7e2e20a1703257a830645ea5521ce06a24018711643d203db", size = 3207225, upload-time = "2026-09-23T12:55:35.658Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/76/5c/07bd7d4e5cb58451fea187d187722976f8b152e09569ec8cb215167fdd58/jupyter_book-2.1.6-py3-none-any.whl", hash = "sha256:677a11211a142757405a0c6cc6f4b36a371ef4887220a4833ed00101b0d52691", size = 2623674, upload-time = "2026-07-05T16:14:56.154Z" },
+    { url = "https://files.pythonhosted.org/packages/fd/49/b166f24e2638d3227dd3e8c6f8a6fb2d9b6a012696660bb5d1f71730bb6a/jupyter_book-2.1.7-py3-none-any.whl", hash = "sha256:eeef6ee8f25df129a1428c7c97ac0e8f63665879942cdb7b46fc4ef42547cb76", size = 2608762, upload-time = "2026-09-23T12:55:32.995Z" },
 ]
 
 [[package]]
@@ -1062,7 +1062,7 @@ wheels = [
 
 [[package]]
 name = "jupyterlab"
-version = "4.6.3"
+version = "4.6.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "async-lru" },
@@ -1081,9 +1081,9 @@ dependencies = [
     { name = "traitlets" },
     { name = "typing-extensions", marker = "python_full_version < '3.12'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/00/c0/45934229995d4c6e38192ca118d93185f60808f64157e3df3c5c28f8c5fd/jupyterlab-4.6.3.tar.gz", hash = "sha256:2e3db6e3a12495ebd188276e985bf5ac502fbde3d1e8628819920210008de498", size = 28319771, upload-time = "2026-08-10T18:50:57.947Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/33/8d/995cc142f6083346b35e7d3eadc5a6717ee89ce64ea53577010ac493bc3c/jupyterlab-4.6.4.tar.gz", hash = "sha256:404f49b081819378524886c9db66dba57a5565981eff885830df1baba3a17df5", size = 28335647, upload-time = "2026-09-21T15:25:18.779Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e9/47/242f46de028074651c9bd6d8000fc340ed0d3cdd1a0eae4387826123413a/jupyterlab-4.6.3-py3-none-any.whl", hash = "sha256:0a1ebc6567186f1eabd99536e94df7ed9e96d1e7c5ddf3e4406ae16e88abacb7", size = 17168312, upload-time = "2026-08-10T18:50:53.044Z" },
+    { url = "https://files.pythonhosted.org/packages/3b/e4/072bc0d3c6d45d414062a06af7ee81c02a2c12d769c358ec9919f9995ffd/jupyterlab-4.6.4-py3-none-any.whl", hash = "sha256:15b13f991d3985129c797eb84d9949eeb8b6615e14b444868e642411f2c418b2", size = 17171596, upload-time = "2026-09-21T15:25:14.123Z" },
 ]
 
 [[package]]
@@ -1797,7 +1797,7 @@ docs = [
 docs = [
     { name = "ccxt", specifier = ">=4.5.73,<5" },
     { name = "graphviz", specifier = ">=0.20,<1" },
-    { name = "jupyter-book", specifier = "==2.1.6" },
+    { name = "jupyter-book", specifier = "==2.1.7" },
     { name = "jupyterlab", specifier = ">=4.6.3,<5" },
     { name = "openpyxl", specifier = ">=3.1,<4" },
     { name = "pandas", specifier = ">=2.0,<3" },
