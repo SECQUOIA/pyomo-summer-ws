@@ -206,6 +206,7 @@ class BookContentTests(unittest.TestCase):
     def test_docs_dependency_group_preserves_compatibility_policy(self):
         pyproject = tomllib.loads((ROOT / "pyproject.toml").read_text())
 
+        self.assertEqual(">=3.11,<3.13", pyproject["project"]["requires-python"])
         docs = requirement_specifiers(pyproject["dependency-groups"]["docs"])
         jupyter_book = re.fullmatch(r"==(\d+(?:\.\d+)*)", docs["jupyter-book"])
         self.assertIsNotNone(jupyter_book)

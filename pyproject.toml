@@ -2,7 +2,7 @@
 name = "pyomo-summer-ws"
 version = "0.1.0"
 description = "Jupyter Book and notebook environment for the Pyomo Tutorial."
-requires-python = ">=3.10,<3.13"
+requires-python = ">=3.11,<3.13"
 dependencies = []
 
 [dependency-groups]
