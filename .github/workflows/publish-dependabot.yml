@@ -57,6 +57,10 @@ jobs:
           if [ "$(jq -r '.state' <<< "$snapshot")" = closed ]; then
             exit 0
           fi
+          if [ "$(jq -r '.mergeable_state' <<< "$snapshot")" = behind ]; then
+            echo "The PR branch is behind main; updating it will trigger its own CI and publication."
+            exit 0
+          fi
           if [ "$attempt" -ge 3 ] && [ "$(jq -r '.auto_merge' <<< "$snapshot")" = null ]; then
             echo "Auto-merge is not enabled; manual merges use the push workflow."
             exit 0
