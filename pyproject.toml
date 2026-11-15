@@ -12,7 +12,7 @@ docs = [
     "jupyter-book==2.1.7",
     "jupyterlab>=4.6.3,<5",
     "openpyxl>=3.1,<4",
-    "pandas>=2.0,<3",
+    "pandas>=2.0,<4",
     "pint>=0.24,<1",
     "pyomo>=6.10.1,<7",
 ]
